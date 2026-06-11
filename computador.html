@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Álbum Copa 2026 — PC</title>
+<style>
+:root{
+  --g:#0a6010;--gd:#074a0c;--gl:#e7f5e8;--gb:#25852c;
+  --a:#b85c00;--al:#fff3e0;--ab:#e07b00;--ad:#7a3c00;
+  --b:#1558a0;--bl:#e8f0fb;--bb:#2271d6;--bd:#0d3570;
+  --r:#c0392b;--rl:#fdecea;--rb:#e74c3c;
+  --p:#6d28d9;--pl:#f3eeff;
+  --bg:#eeede8;--card:#fff;--card2:#f7f6f2;
+  --br:rgba(0,0,0,.08);--br2:rgba(0,0,0,.15);
+  --t:#0d0d0d;--t2:#555;--t3:#999;
+  --sb:228px;--rr:10px;--rs:7px;
+  --sh:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);font-size:13px;overflow:hidden}
+button,select,input{font-family:inherit}
+code{background:var(--card2);border:1px solid var(--br);border-radius:4px;padding:1px 5px;font-size:11px;font-family:monospace}
+
+/* SHELL */
+#shell{display:flex;height:100vh}
+
+/* ── SIDEBAR ── */
+#sb{width:var(--sb);background:#0a5c10;display:flex;flex-direction:column;flex-shrink:0}
+.sb-top{padding:14px 15px 12px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}
+.sb-trophy{font-size:24px}
+.sb-ttl{color:#fff;font-size:13px;font-weight:700;line-height:1.25}
+.sb-sub{color:rgba(255,255,255,.45);font-size:10px;margin-top:1px}
+.sb-nav{flex:1;overflow-y:auto;padding:6px 0}
+.sb-sec{padding:10px 14px 3px;font-size:10px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.3);text-transform:uppercase}
+.sbi{display:flex;align-items:center;gap:9px;padding:9px 14px;color:rgba(255,255,255,.62);font-size:12px;cursor:pointer;border-left:3px solid transparent;transition:all .12s;user-select:none}
+.sbi:hover{background:rgba(255,255,255,.07);color:#fff}
+.sbi.on{background:rgba(255,255,255,.12);color:#fff;border-left-color:#7dd98a}
+.sbi svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.9;flex-shrink:0}
+.sb-bottom{border-top:1px solid rgba(255,255,255,.1);padding:12px 14px}
+.sb-prow{display:flex;justify-content:space-between;margin-bottom:5px}
+.sb-prow span{font-size:10px;color:rgba(255,255,255,.45)}
+.sb-prow strong{font-size:11px;color:#fff;font-weight:700}
+.sb-bar{height:5px;background:rgba(255,255,255,.16);border-radius:3px;overflow:hidden;margin-bottom:10px}
+.sb-fill{height:100%;background:#7dd98a;border-radius:3px;transition:width .5s}
+.sb-kgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.sbk{background:rgba(255,255,255,.07);border-radius:6px;padding:7px 9px}
+.sbk-v{font-size:16px;font-weight:800;color:#fff;line-height:1}
+.sbk-l{font-size:9px;color:rgba(255,255,255,.4);margin-top:2px}
+
+/* ── MAIN ── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+/* ── TOPBAR ── */
+#topbar{height:52px;background:var(--card);border-bottom:1px solid var(--br);display:flex;align-items:center;gap:10px;padding:0 18px;flex-shrink:0;box-shadow:var(--sh)}
+.tb-ttl{font-size:14px;font-weight:700;white-space:nowrap}
+.tb-sp{flex:1}
+.tb-search{position:relative;display:flex;align-items:center}
+.tb-search svg{position:absolute;left:9px;width:13px;height:13px;stroke:var(--t3);fill:none;stroke-width:2;pointer-events:none}
+.tb-search input{padding:7px 10px 7px 28px;border:1px solid var(--br2);border-radius:var(--rs);background:var(--card2);color:var(--t);font-size:12px;width:200px;transition:all .15s}
+.tb-search input:focus{outline:none;border-color:var(--g);width:240px;background:#fff}
+select.f{padding:7px 9px;border:1px solid var(--br2);border-radius:var(--rs);background:var(--card2);color:var(--t);font-size:12px;cursor:pointer}
+select.f:focus{outline:none;border-color:var(--g)}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--rs);font-size:12px;font-weight:600;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:all .12s}
+.btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.btn-p{background:var(--g);color:#fff;border-color:var(--g)}.btn-p:hover{background:var(--gd)}
+.btn-s{background:var(--card);color:var(--t2);border-color:var(--br2)}.btn-s:hover{background:var(--card2)}
+.btn-d{background:var(--rl);color:var(--r);border-color:var(--rl)}.btn-d:hover{background:#fbd5d2}
+
+/* ── CONTENT ── */
+#content{flex:1;overflow-y:auto;padding:16px 20px}
+.pg{display:none}.pg.on{display:block}
+
+/* ── SYNC BAR ── */
+.sync-bar{background:#1a3a80;color:#fff;padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.sync-bar.ok{background:#145214}
+.sync-bar.err{background:#7a1010}
+.sync-bar input{flex:1;padding:5px 9px;border-radius:5px;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:12px}
+.sync-bar input::placeholder{color:rgba(255,255,255,.5)}
+.sync-bar input:focus{outline:none;background:rgba(255,255,255,.25)}
+.sb-btn{padding:5px 11px;border-radius:5px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:12px;cursor:pointer;white-space:nowrap}
+.sb-btn:hover{background:rgba(255,255,255,.2)}
+
+/* ── KPI ROW ── */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--br);border-radius:var(--rr);padding:12px 14px;box-shadow:var(--sh)}
+.kpi-v{font-size:22px;font-weight:800;line-height:1;margin-bottom:3px}
+.kpi-l{font-size:10px;color:var(--t3);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.kpi-s{font-size:11px;color:var(--t2);margin-top:1px}
+.kpi.cg .kpi-v{color:var(--g)}.kpi.cr .kpi-v{color:var(--r)}
+.kpi.ca .kpi-v{color:var(--a)}.kpi.cb .kpi-v{color:var(--b)}
+.kpi.cp .kpi-v{color:var(--p)}
+
+/* ── GROUP VIEW ── */
+.grp-section{margin-bottom:20px}
+.grp-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--br)}
+.grp-title{font-size:14px;font-weight:800;color:var(--t)}
+.grp-pill{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--gl);color:var(--g);font-weight:600;border:1px solid rgba(10,96,16,.2)}
+.grp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+/* ── TEAM CARD ── */
+.tcard{background:var(--card);border:1px solid var(--br);border-radius:var(--rr);padding:13px;cursor:pointer;transition:all .14s;box-shadow:var(--sh)}
+.tcard:hover{border-color:var(--gb);transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.tcard.done{border-left:3px solid var(--gb)}
+.tcard.host-team{background:linear-gradient(135deg,#fff 60%,#f0fff2)}
+.tc-head{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.tc-code{font-size:13px;font-weight:800;min-width:32px;letter-spacing:.02em}
+.tc-flag{font-size:15px;line-height:1} .fi{line-height:1}.tc-flag img,.d-flag img{display:block}
+.tc-name{font-size:11px;color:var(--t2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tc-host{font-size:9px;padding:1px 5px;border-radius:4px;background:#e6f7e6;color:var(--g);font-weight:700;border:1px solid rgba(10,96,16,.2)}
+.tc-pills{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.pil{font-size:10px;padding:2px 6px;border-radius:5px;font-weight:600}
+.pil.g{background:var(--gl);color:var(--g)}.pil.r{background:var(--rl);color:var(--r)}
+.pil.a{background:var(--al);color:var(--ad)}.pil.p{background:var(--pl);color:var(--p)}
+.pbar{height:4px;background:var(--br);border-radius:2px;overflow:hidden;margin-bottom:4px}
+.pfill{height:100%;background:var(--g);border-radius:2px;transition:width .4s}
+.tc-conf{font-size:10px;color:var(--t3)}
+
+/* ── DETAIL ── */
+.back-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.dhdr{background:var(--card);border:1px solid var(--br);border-radius:var(--rr);padding:16px 20px;margin-bottom:14px;display:flex;gap:14px;box-shadow:var(--sh)}
+.d-flag{font-size:44px;line-height:1;flex-shrink:0;display:flex;align-items:center}
+.d-body{flex:1}
+.d-grp{font-size:11px;color:var(--t3);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:2px}
+.d-name{font-size:20px;font-weight:800}
+.d-conf{font-size:12px;color:var(--t2);margin-top:2px}
+.d-kpis{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.dk{background:var(--card2);border:1px solid var(--br);border-radius:var(--rs);padding:8px 13px;text-align:center}
+.dk-v{font-size:18px;font-weight:800;line-height:1}
+.dk-l{font-size:9px;color:var(--t3);margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
+.dk.cg .dk-v{color:var(--g)}.dk.cr .dk-v{color:var(--r)}
+.dk.ca .dk-v{color:var(--a)}.dk.cp .dk-v{color:var(--p)}
+.d-acts{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.legend{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2)}
+.ldot{width:12px;height:12px;border-radius:3px;border:1px solid;flex-shrink:0}
+.leg-tip{font-size:11px;color:var(--t3);margin-left:auto}
+
+/* ── STICKERS ── */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:6px}
+.sc{background:var(--card);border:1px solid var(--br);border-radius:var(--rs);padding:9px 4px;text-align:center;cursor:pointer;transition:all .12s;position:relative;user-select:none;box-shadow:var(--sh)}
+.sc:hover{border-color:var(--g);transform:scale(1.06);z-index:2}
+.sc.owned{background:var(--gl);border-color:var(--gb)}
+.sc.dbl{background:var(--al);border-color:var(--ab)}
+.sc.spec{border-color:var(--bb);border-style:dashed}
+.sc.spec.owned{background:var(--bl);border-color:var(--bb);border-style:solid}
+.sc.spec.dbl{background:#d0e4fa;border-color:#1a6dd6;border-style:solid}
+.sc-n{font-size:13px;font-weight:700;color:var(--t2)}
+.sc.owned .sc-n{color:#155a1b}.sc.dbl .sc-n{color:var(--ad)}
+.sc.spec:not(.owned):not(.dbl) .sc-n{color:var(--bd)}
+.sc.spec.owned .sc-n,.sc.spec.dbl .sc-n{color:var(--bd)}
+.sc-l{font-size:9px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;margin-top:1px}
+.sc.owned .sc-l{color:#1e6b26}.sc.dbl .sc-l{color:var(--a)}
+.sc-q{position:absolute;top:-5px;right:-5px;background:var(--ab);color:#fff;font-size:9px;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;padding:0 3px}
+.sc.spec .sc-q{background:var(--bb)}
+
+/* ── FWC ── */
+.fwc-sec{margin-bottom:18px}
+.fwc-hdr{font-size:12px;font-weight:700;color:var(--t2);padding-bottom:6px;border-bottom:1px solid var(--br);margin-bottom:9px;display:flex;justify-content:space-between}
+.fwc-hdr span{font-weight:400;color:var(--t3)}
+
+/* ── ENTRADA ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--br);border-radius:var(--rr);padding:16px;box-shadow:var(--sh)}
+.card-title{font-size:13px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.card-title svg{width:14px;height:14px;stroke:var(--t2);fill:none;stroke-width:2}
+.card-hint{font-size:11px;color:var(--t2);margin-bottom:11px;line-height:1.6}
+.vbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;border-radius:var(--rs);border:1px solid var(--br2);background:var(--card2);color:var(--t);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s}
+.vbtn:hover{border-color:var(--g);background:var(--gl)}
+.vbtn.on{background:var(--rl);border-color:var(--rb);color:var(--r)}
+.vbtn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.vtxt{font-size:12px;color:var(--t2);margin-top:8px;padding:8px 11px;background:var(--card2);border-radius:var(--rs);min-height:36px;line-height:1.5;border:1px solid var(--br)}
+.vmsg{font-size:12px;min-height:16px;margin-top:6px;font-weight:500}
+.vmsg.ok{color:var(--g)}.vmsg.err{color:var(--r)}
+.irow{display:flex;gap:6px}
+.irow input{flex:1;padding:8px 10px;border:1px solid var(--br2);border-radius:var(--rs);background:var(--card2);color:var(--t);font-size:12px}
+.irow input:focus{outline:none;border-color:var(--g);background:#fff}
+.msg{font-size:12px;min-height:14px;margin-top:5px}
+.msg.ok{color:var(--g)}.msg.err{color:var(--r)}
+
+/* ── REPORT ── */
+.rpt-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.rpt-flt{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:11px 14px;background:var(--card);border:1px solid var(--br);border-radius:var(--rr);margin-bottom:12px}
+.rfb{padding:5px 10px;border-radius:5px;border:1px solid var(--br2);background:var(--card2);color:var(--t2);font-size:11px;cursor:pointer;transition:all .12s}
+.rfb.on{background:var(--g);color:#fff;border-color:var(--g)}
+.rfb:hover:not(.on){background:var(--card)}
+.rcard{background:var(--card);border:1px solid var(--br);border-radius:var(--rr);padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+.rcard-hdr{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.rcard-hdr span{font-size:11px;color:var(--t3);font-weight:400}
+.sum-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:14px}
+.sk{background:var(--card2);border:1px solid var(--br);border-radius:var(--rs);padding:10px 12px;text-align:center}
+.sk-v{font-size:20px;font-weight:800;line-height:1}.sk-l{font-size:10px;color:var(--t3);margin-top:3px}
+.sk.g .sk-v{color:var(--g)}.sk.r .sk-v{color:var(--r)}.sk.a .sk-v{color:var(--a)}.sk.b .sk-v{color:var(--b)}.sk.p .sk-v{color:var(--p)}
+.rtbl{width:100%;font-size:12px;border-collapse:collapse}
+.rtbl th{text-align:left;color:var(--t2);font-weight:600;padding:6px 8px;border-bottom:2px solid var(--br);font-size:10px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;user-select:none;white-space:nowrap}
+.rtbl th:hover{color:var(--g)}
+.rtbl td{padding:6px 8px;border-bottom:1px solid var(--br);vertical-align:middle}
+.rtbl tr:hover td{background:var(--card2)}
+.rtbl tr:last-child td{border:none}
+.rtbl .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.pbsm{height:5px;background:var(--br);border-radius:3px;overflow:hidden;min-width:55px}
+.pbsm-f{height:100%;background:var(--g);border-radius:3px}
+.pill{display:inline-block;padding:2px 6px;border-radius:5px;font-size:10px;font-weight:700}
+.pill.g{background:var(--gl);color:var(--g)}.pill.r{background:var(--rl);color:var(--r)}
+.pill.a{background:var(--al);color:var(--ad)}.pill.b{background:var(--bl);color:var(--bd)}
+.pill.p{background:var(--pl);color:var(--p)}.pill.n{background:var(--card2);color:var(--t2)}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:500}
+.chip.m{background:var(--rl);color:var(--r)}.chip.rep{background:var(--al);color:var(--ad)}
+.chip.n{background:var(--card2);color:var(--t2)}
+
+/* ── CTX MENU ── */
+.ctx{display:none;position:fixed;background:var(--card);border:1px solid var(--br2);border-radius:var(--rr);padding:5px;z-index:900;min-width:190px;box-shadow:0 8px 28px rgba(0,0,0,.15)}
+.ctx.on{display:block}
+.ctx-hd{font-size:10px;font-weight:700;color:var(--t3);padding:4px 10px 6px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--br);margin-bottom:4px}
+.ctx-it{padding:7px 10px;font-size:12px;cursor:pointer;border-radius:6px;color:var(--t);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ctx-it:hover{background:var(--card2)}.ctx-it.del{color:var(--r)}
+.ctx-it small{color:var(--t3);font-size:11px}
+.ctx-sep{height:1px;background:var(--br);margin:4px 0}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/css/flag-icons.min.css">
+</head>
+<body>
+<div id="shell">
+
+<!-- ── SIDEBAR ── -->
+<div id="sb">
+  <div class="sb-top">
+    <div class="sb-trophy">🏆</div>
+    <div><div class="sb-ttl">Álbum Copa 2026</div><div class="sb-sub">Panini · 980 fig · 48 seleções</div></div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-sec">Coleção</div>
+    <div class="sbi on" onclick="goPg('selecoes',this)">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Seleções por Grupo
+    </div>
+    <div class="sbi" onclick="goPg('especiais',this)">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Especiais FWC
+    </div>
+    <div class="sb-sec">Ferramentas</div>
+    <div class="sbi" onclick="goPg('entrada',this)">
+      <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      Voz & Entrada
+    </div>
+    <div class="sbi" onclick="goPg('sync',this)">
+      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      Sincronizar / Backup
+    </div>
+    <div class="sbi" onclick="goPg('relatorio',this)">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Relatório
+    </div>
+  </div>
+  <div class="sb-bottom" id="sbBottom"></div>
+</div>
+
+<!-- ── MAIN ── -->
+<div id="main">
+
+  <!-- SYNC STATUS BAR -->
+  <div class="sync-bar" id="syncStatusBar" style="display:none"></div>
+
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <div class="tb-ttl" id="tb-ttl">Seleções por Grupo</div>
+    <div class="tb-sp"></div>
+    <div class="tb-search" id="tb-srch-wrap">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="srch" placeholder="Buscar seleção…" oninput="renderGroups()">
+    </div>
+    <div id="tb-flt-wrap" style="display:flex;gap:6px">
+      <select class="f" id="fstatus" onchange="renderGroups()">
+        <option value="">Todas</option>
+        <option value="done">Completas ✅</option>
+        <option value="partial">Em andamento</option>
+        <option value="empty">Não iniciadas</option>
+        <option value="rep">Com repetidas</option>
+      </select>
+      <select class="f" id="fconf" onchange="renderGroups()">
+        <option value="">Todas as conf.</option>
+        <option value="CONMEBOL">CONMEBOL</option>
+        <option value="UEFA">UEFA</option>
+        <option value="CONCACAF">CONCACAF</option>
+        <option value="CAF">CAF</option>
+        <option value="AFC">AFC</option>
+        <option value="OFC">OFC</option>
+      </select>
+    </div>
+    <button class="btn btn-d" onclick="if(confirm('Limpar toda a coleção?'))clearAll()">
+      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Limpar
+    </button>
+  </div>
+
+  <div id="content">
+
+    <!-- SELEÇÕES -->
+    <div class="pg on" id="pg-selecoes">
+      <div class="kpi-row" id="kpiRow"></div>
+      <div id="groupsWrap"></div>
+    </div>
+
+    <!-- DETALHE -->
+    <div class="pg" id="pg-detail">
+      <div class="back-row">
+        <button class="btn btn-s" onclick="goBack()">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Voltar
+        </button>
+      </div>
+      <div class="dhdr" id="dhdr"></div>
+      <div class="legend">
+        <div class="leg"><div class="ldot" style="background:var(--card);border-color:var(--br2)"></div>Não tenho</div>
+        <div class="leg"><div class="ldot" style="background:var(--gl);border-color:var(--gb)"></div>Tenho</div>
+        <div class="leg"><div class="ldot" style="background:var(--al);border-color:var(--ab)"></div>Repetida</div>
+        <div class="leg"><div class="ldot" style="background:var(--bl);border-color:var(--bb)"></div>Especial ✨</div>
+        <div class="leg-tip">Clique = +1 · Clique direito = definir qtd</div>
+      </div>
+      <div class="sgrid" id="sgrid"></div>
+    </div>
+
+    <!-- ESPECIAIS FWC -->
+    <div class="pg" id="pg-especiais">
+      <div class="legend" style="margin-bottom:12px">
+        <div class="leg"><div class="ldot" style="background:var(--card);border-color:var(--br2)"></div>Não tenho</div>
+        <div class="leg"><div class="ldot" style="background:var(--gl);border-color:var(--gb)"></div>Tenho</div>
+        <div class="leg"><div class="ldot" style="background:var(--al);border-color:var(--ab)"></div>Repetida</div>
+        <div class="leg-tip">Clique = +1 · Clique direito = definir qtd</div>
+      </div>
+      <div id="fwcWrap"></div>
+    </div>
+
+    <!-- ENTRADA -->
+    <div class="pg" id="pg-entrada">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            Reconhecimento de voz
+          </div>
+          <div class="card-hint">
+            <code>Brasil 5</code> · <code>Argentina 3 repetida</code> · <code>BRA 1 a 10</code> · <code>Brasil completo</code> · <code>BRA 5 3 cópias</code>
+          </div>
+          <button class="vbtn" id="vbtn" onclick="toggleVoice()">
+            <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            Iniciar reconhecimento de voz
+          </button>
+          <div class="vtxt" id="vtxt">Aguardando microfone…</div>
+          <div class="vmsg" id="vmsg"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Entrada em lote
+          </div>
+          <div class="card-hint">
+            <code>BRA 1 2 3</code> · <code>ARG 1-20</code> · <code>BRA R5</code> (R=repetida) · separe com <code>|</code><br>
+            Qtd: <code>BRA 5 3x</code> · FWC: <code>FWC 1 2 3</code>
+          </div>
+          <div class="irow">
+            <input type="text" id="bulkIn" placeholder="BRA 1 2 3 | ARG 1-20 | FWC 1 2" onkeydown="if(event.key==='Enter')doBulk()">
+            <button class="btn btn-p" onclick="doBulk()">Registrar</button>
+          </div>
+          <div class="msg" id="bmsg"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Ações globais
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button class="btn btn-p" onclick="if(confirm('Marcar TODAS as 980?'))markAll()">Marcar tudo como obtido</button>
+          <button class="btn btn-d" onclick="if(confirm('Limpar TODA a coleção?'))clearAll()">Limpar coleção</button>
+          <button class="btn btn-s" onclick="doExport()">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar JSON
+          </button>
+          <button class="btn btn-s" onclick="document.getElementById('impFile').click()">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar JSON
+          </button>
+          <input type="file" id="impFile" accept=".json" style="display:none" onchange="doImport(event)">
+        </div>
+        <div class="msg ok" id="actmsg"></div>
+      </div>
+    </div>
+
+    <!-- SYNC -->
+    <div class="pg" id="pg-sync">
+      <div class="card" style="max-width:600px;margin-bottom:14px">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Sincronizar com Celular via Wi-Fi
+        </div>
+        <div class="card-hint" style="margin-bottom:14px">
+          O servidor local iniciado pelo <strong>INICIAR_ALBUM.bat</strong> permite sincronização automática.<br>
+          Acesse o álbum pelo celular no mesmo Wi-Fi e os dados serão compartilhados via arquivo JSON.
+        </div>
+        <div style="background:var(--card2);border-radius:var(--rs);padding:12px 14px;font-size:12px;color:var(--t2);line-height:1.7;border:1px solid var(--br)">
+          <strong>Passo a passo:</strong><br>
+          1. Clique duas vezes em <code>INICIAR_ALBUM.bat</code> no seu PC<br>
+          2. Anote o endereço IP exibido (ex: <code>192.168.1.10:8765</code>)<br>
+          3. No celular (mesmo Wi-Fi), abra o Chrome e acesse <code>http://IP:8765/celular.html</code><br>
+          4. Use o botão <strong>"Exportar JSON"</strong> no PC e <strong>"Importar JSON"</strong> no celular para sincronizar<br>
+          5. O arquivo <code>album_copa_2026.json</code> pode ser enviado por WhatsApp, Drive, e-mail etc.
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-p" onclick="doExport()">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar JSON (PC → Celular)
+          </button>
+          <button class="btn btn-s" onclick="document.getElementById('impFile2').click()">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar JSON (Celular → PC)
+          </button>
+          <input type="file" id="impFile2" accept=".json" style="display:none" onchange="doImport(event)">
+        </div>
+        <div class="msg ok" id="syncmsg"></div>
+      </div>
+      <div class="card" style="max-width:600px">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Informações da coleção atual
+        </div>
+        <div id="syncInfo" style="margin-top:10px"></div>
+      </div>
+    </div>
+
+    <!-- RELATÓRIO -->
+    <div class="pg" id="pg-relatorio">
+      <div class="rpt-bar">
+        <button class="btn btn-p" onclick="printReport()">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir relatório
+        </button>
+        <button class="btn btn-p" onclick="printMissing()" style="background:#c0392b;border-color:#c0392b">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>🔍 Imprimir lista de faltantes
+        </button>
+        <button class="btn btn-s" onclick="doExport()">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar JSON
+        </button>
+        <div class="tb-sp"></div>
+        <span style="font-size:11px;color:var(--t3)">Filtros aplicam-se à impressão</span>
+      </div>
+      <div class="rpt-flt">
+        <div style="font-size:11px;font-weight:700;color:var(--t2);margin-right:4px">Mostrar:</div>
+        <button class="rfb on" id="rf-all"     onclick="setRF('all')">Todas</button>
+        <button class="rfb"    id="rf-done"    onclick="setRF('done')">Completas</button>
+        <button class="rfb"    id="rf-partial" onclick="setRF('partial')">Em andamento</button>
+        <button class="rfb"    id="rf-empty"   onclick="setRF('empty')">Não iniciadas</button>
+        <button class="rfb"    id="rf-rep"     onclick="setRF('rep')">Com repetidas</button>
+        <div style="width:1px;background:var(--br);margin:0 6px"></div>
+        <select class="f" id="rconf" onchange="buildReport()" style="font-size:11px">
+          <option value="">Todas conf.</option>
+          <option value="CONMEBOL">CONMEBOL</option>
+          <option value="UEFA">UEFA</option>
+          <option value="CONCACAF">CONCACAF</option>
+          <option value="CAF">CAF</option>
+          <option value="AFC">AFC</option>
+          <option value="OFC">OFC</option>
+        </select>
+        <select class="f" id="rsort" onchange="buildReport()" style="font-size:11px">
+          <option value="owned-desc">Mais completas</option>
+          <option value="owned-asc">Menos completas</option>
+          <option value="name">Nome A-Z</option>
+          <option value="group">Por grupo</option>
+          <option value="rep-desc">Mais repetidas</option>
+          <option value="extra-desc">Mais extras</option>
+        </select>
+      </div>
+      <div id="rpt"></div>
+    </div>
+
+  </div>
+</div>
+</div><!-- /shell -->
+
+<!-- CTX MENU -->
+<div class="ctx" id="ctx">
+  <div class="ctx-hd" id="ctx-hd">Figurinha</div>
+  <div class="ctx-it del" onclick="ctxSet(0)">Remover <small>não tenho</small></div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-it" onclick="ctxSet(1)">1 cópia <small>sem repetida</small></div>
+  <div class="ctx-it" onclick="ctxSet(2)">2 cópias <small>1 repetida</small></div>
+  <div class="ctx-it" onclick="ctxSet(3)">3 cópias</div>
+  <div class="ctx-it" onclick="ctxSet(4)">4 cópias</div>
+  <div class="ctx-it" onclick="ctxSet(5)">5 cópias</div>
+  <div class="ctx-it" onclick="ctxSet(8)">8 cópias</div>
+  <div class="ctx-it" onclick="ctxSet(10)">10 cópias</div>
+</div>
+
+<script>
+// ═══════════════════ DATA ═══════════════════
+const FLAG_ISO={MEX:'mx',KOR:'kr',RSA:'za',CZE:'cz',CAN:'ca',BIH:'ba',QAT:'qa',SUI:'ch',BRA:'br',MAR:'ma',HTI:'ht',SCO:'gb-sct',USA:'us',PAR:'py',AUS:'au',TUR:'tr',GER:'de',CUW:'cw',CIV:'ci',ECU:'ec',NED:'nl',JPN:'jp',SWE:'se',TUN:'tn',BEL:'be',EGY:'eg',IRN:'ir',NZL:'nz',ESP:'es',CPV:'cv',SAU:'sa',URU:'uy',FRA:'fr',SEN:'sn',NOR:'no',IRQ:'iq',ARG:'ar',ALG:'dz',AUT:'at',JOR:'jo',POR:'pt',CGO:'cd',UZB:'uz',COL:'co',ENG:'gb-eng',CRO:'hr',GHA:'gh',PAN:'pa'};
+function fImg(code,sz){sz=sz||24;const iso=FLAG_ISO[code];if(!iso)return'';const em=sz<=20?'1.1em':sz<=28?'1.4em':sz<=40?'2em':sz<=56?'2.8em':'3.5em';return`<span class="fi fi-${iso}" style="font-size:${em};border-radius:3px;box-shadow:0 0 0 1px rgba(0,0,0,.15);flex-shrink:0;vertical-align:middle;display:inline-block"></span>`;}
+
+const GROUPS={A:{name:'Grupo A',teams:['MEX','KOR','RSA','CZE']},B:{name:'Grupo B',teams:['CAN','BIH','QAT','SUI']},C:{name:'Grupo C',teams:['BRA','MAR','HTI','SCO']},D:{name:'Grupo D',teams:['USA','PAR','AUS','TUR']},E:{name:'Grupo E',teams:['GER','CUW','CIV','ECU']},F:{name:'Grupo F',teams:['NED','JPN','SWE','TUN']},G:{name:'Grupo G',teams:['BEL','EGY','IRN','NZL']},H:{name:'Grupo H',teams:['ESP','CPV','SAU','URU']},I:{name:'Grupo I',teams:['FRA','SEN','NOR','IRQ']},J:{name:'Grupo J',teams:['ARG','ALG','AUT','JOR']},K:{name:'Grupo K',teams:['POR','CGO','UZB','COL']},L:{name:'Grupo L',teams:['ENG','CRO','GHA','PAN']}};
+const TEAMS={MEX:{name:'México',flag:'🇲🇽',conf:'CONCACAF',host:true},KOR:{name:'Coreia do Sul',flag:'🇰🇷',conf:'AFC'},RSA:{name:'África do Sul',flag:'🇿🇦',conf:'CAF'},CZE:{name:'Tchéquia',flag:'🇨🇿',conf:'UEFA'},CAN:{name:'Canadá',flag:'🇨🇦',conf:'CONCACAF',host:true},BIH:{name:'Bósnia-Herz.',flag:'🇧🇦',conf:'UEFA'},QAT:{name:'Catar',flag:'🇶🇦',conf:'AFC'},SUI:{name:'Suíça',flag:'🇨🇭',conf:'UEFA'},BRA:{name:'Brasil',flag:'🇧🇷',conf:'CONMEBOL'},MAR:{name:'Marrocos',flag:'🇲🇦',conf:'CAF'},HTI:{name:'Haiti',flag:'🇭🇹',conf:'CONCACAF'},SCO:{name:'Escócia',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',conf:'UEFA',noEmoji:true},USA:{name:'Estados Unidos',flag:'🇺🇸',conf:'CONCACAF',host:true},PAR:{name:'Paraguai',flag:'🇵🇾',conf:'CONMEBOL'},AUS:{name:'Austrália',flag:'🇦🇺',conf:'AFC'},TUR:{name:'Turquia',flag:'🇹🇷',conf:'UEFA'},GER:{name:'Alemanha',flag:'🇩🇪',conf:'UEFA'},CUW:{name:'Curaçao',flag:'🇨🇼',conf:'CONCACAF'},CIV:{name:'Costa do Marfim',flag:'🇨🇮',conf:'CAF'},ECU:{name:'Equador',flag:'🇪🇨',conf:'CONMEBOL'},NED:{name:'Holanda',flag:'🇳🇱',conf:'UEFA'},JPN:{name:'Japão',flag:'🇯🇵',conf:'AFC'},SWE:{name:'Suécia',flag:'🇸🇪',conf:'UEFA'},TUN:{name:'Tunísia',flag:'🇹🇳',conf:'CAF'},BEL:{name:'Bélgica',flag:'🇧🇪',conf:'UEFA'},EGY:{name:'Egito',flag:'🇪🇬',conf:'CAF'},IRN:{name:'Irã',flag:'🇮🇷',conf:'AFC'},NZL:{name:'Nova Zelândia',flag:'🇳🇿',conf:'OFC'},ESP:{name:'Espanha',flag:'🇪🇸',conf:'UEFA'},CPV:{name:'Cabo Verde',flag:'🇨🇻',conf:'CAF'},SAU:{name:'Arábia Saudita',flag:'🇸🇦',conf:'AFC'},URU:{name:'Uruguai',flag:'🇺🇾',conf:'CONMEBOL'},FRA:{name:'França',flag:'🇫🇷',conf:'UEFA'},SEN:{name:'Senegal',flag:'🇸🇳',conf:'CAF'},NOR:{name:'Noruega',flag:'🇳🇴',conf:'UEFA'},IRQ:{name:'Iraque',flag:'🇮🇶',conf:'AFC'},ARG:{name:'Argentina',flag:'🇦🇷',conf:'CONMEBOL'},ALG:{name:'Argélia',flag:'🇩🇿',conf:'CAF'},AUT:{name:'Áustria',flag:'🇦🇹',conf:'UEFA'},JOR:{name:'Jordânia',flag:'🇯🇴',conf:'AFC'},POR:{name:'Portugal',flag:'🇵🇹',conf:'UEFA'},CGO:{name:'Congo RD',flag:'🇨🇩',conf:'CAF'},UZB:{name:'Uzbequistão',flag:'🇺🇿',conf:'AFC'},COL:{name:'Colômbia',flag:'🇨🇴',conf:'CONMEBOL'},ENG:{name:'Inglaterra',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',conf:'UEFA',noEmoji:true},CRO:{name:'Croácia',flag:'🇭🇷',conf:'UEFA'},GHA:{name:'Gana',flag:'🇬🇭',conf:'CAF'},PAN:{name:'Panamá',flag:'🇵🇦',conf:'CONCACAF'}};
+const FWC=[
+  {code:'00',    name:'Figurinha inicial',    sp:true },
+  {code:'FWC-1', name:'Logo FIFA',            sp:true },
+  {code:'FWC-2', name:'Logo FIFA',            sp:true },
+  {code:'FWC-3', name:'Mascote',              sp:true },
+  {code:'FWC-4', name:'Slogan oficial',       sp:true },
+  {code:'FWC-5', name:'Bola Oficial',         sp:true },
+  {code:'FWC-6', name:'Emblema País-Sede',    sp:true },
+  {code:'FWC-7', name:'Emblema País-Sede',    sp:true },
+  {code:'FWC-8', name:'Emblema País-Sede',    sp:true },
+  {code:'FWC-9', name:'Copa 1934'                    },
+  {code:'FWC-10',name:'Copa 1950'                    },
+  {code:'FWC-11',name:'Copa 1954'                    },
+  {code:'FWC-12',name:'Copa 1962'                    },
+  {code:'FWC-13',name:'Copa 1974'                    },
+  {code:'FWC-14',name:'Copa 1986'                    },
+  {code:'FWC-15',name:'Copa 1994'                    },
+  {code:'FWC-16',name:'Copa 2002'                    },
+  {code:'FWC-17',name:'Copa 2006'                    },
+  {code:'FWC-18',name:'Copa 2014'                    },
+  {code:'FWC-19',name:'Copa 2022'                    },
+];
+const SLBLS=['Escudo','Foto equipe','Jogador 3','Jogador 4','Jogador 5','Jogador 6','Jogador 7','Jogador 8','Jogador 9','Jogador 10','Jogador 11','Jogador 12','Técnico','Jogador 14','Jogador 15','Jogador 16','Jogador 17','Jogador 18','Jogador 19','Jogador 20'];
+const TOTAL=980,SK='copa26_v6';
+let col={},curTeam=null,prevPg='selecoes',ctxCode=null,ctxNum=null,rptFilter='all';
+
+function K(tc,n){return tc+'__'+n}
+function gst(tc,n){return col[K(tc,n)]||0}
+function sst(tc,n,v){if(v<=0)delete col[K(tc,n)];else col[K(tc,n)]=Math.min(99,Math.max(0,v));save();updAll()}
+function save(){try{localStorage.setItem(SK,JSON.stringify(col))}catch(e){}}
+function load(){try{const d=localStorage.getItem(SK);if(d)col=JSON.parse(d)}catch(e){}}
+
+function tSt(c){let o=0,d=0,ex=0;for(let i=1;i<=20;i++){const s=gst(c,i);if(s>=1)o++;if(s>=2){d++;ex+=(s-1);}}return{owned:o,doubled:d,extra:ex}}
+function fwcSt(){let o=0,d=0,ex=0;FWC.forEach((_,i)=>{const s=gst('FWC',i+1);if(s>=1)o++;if(s>=2){d++;ex+=(s-1);}});return{owned:o,doubled:d,extra:ex,total:FWC.length}}
+function glSt(){let to=0,td=0,tex=0,tc=0;Object.keys(TEAMS).forEach(c=>{const s=tSt(c);to+=s.owned;td+=s.doubled;tex+=s.extra;if(s.owned===20)tc++;});const fw=fwcSt();to+=fw.owned;td+=fw.doubled;tex+=fw.extra;return{owned:to,doubled:td,extra:tex,complete:tc,missing:TOTAL-to,pct:Math.round(to/TOTAL*100)}}
+
+function updAll(){
+  const g=glSt();
+  document.getElementById('sbBottom').innerHTML=`
+    <div class="sb-prow"><span>Progresso</span><strong>${g.pct}%</strong></div>
+    <div class="sb-bar"><div class="sb-fill" style="width:${g.pct}%"></div></div>
+    <div class="sb-kgrid">
+      <div class="sbk"><div class="sbk-v">${g.owned}</div><div class="sbk-l">Tenho</div></div>
+      <div class="sbk"><div class="sbk-v">${g.missing}</div><div class="sbk-l">Faltam</div></div>
+      <div class="sbk"><div class="sbk-v">${g.doubled}</div><div class="sbk-l">Repetidas</div></div>
+      <div class="sbk"><div class="sbk-v">${g.extra}</div><div class="sbk-l">Extras</div></div>
+    </div>`;
+  document.getElementById('kpiRow').innerHTML=`
+    <div class="kpi cg"><div class="kpi-v">${g.owned}</div><div class="kpi-l">Tenho</div><div class="kpi-s">de ${TOTAL} figurinhas</div></div>
+    <div class="kpi cr"><div class="kpi-v">${g.missing}</div><div class="kpi-l">Faltam</div><div class="kpi-s">${g.pct}% completo</div></div>
+    <div class="kpi ca"><div class="kpi-v">${g.doubled}</div><div class="kpi-l">Com repetida</div><div class="kpi-s">figurinhas</div></div>
+    <div class="kpi cp"><div class="kpi-v">${g.extra}</div><div class="kpi-l">Extras</div><div class="kpi-s">para trocar</div></div>
+    <div class="kpi"><div class="kpi-v">${g.complete}/48</div><div class="kpi-l">Completas</div><div class="kpi-s">seleções</div></div>`;
+  updSyncInfo(g);
+  if(curTeam)renderDetail();renderFWC();
+}
+
+function updSyncInfo(g){
+  const el=document.getElementById('syncInfo');if(!el)return;
+  el.innerHTML=`<table class="rtbl" style="max-width:320px">
+    <tr><td>Figurinhas no álbum</td><td class="num"><strong>${TOTAL}</strong></td></tr>
+    <tr><td>Tenho</td><td class="num"><strong>${g.owned}</strong></td></tr>
+    <tr><td>Faltam</td><td class="num"><strong>${g.missing}</strong></td></tr>
+    <tr><td>Repetidas</td><td class="num"><strong>${g.doubled}</strong></td></tr>
+    <tr><td>Extras para troca</td><td class="num"><strong>${g.extra}</strong></td></tr>
+    <tr><td>Seleções completas</td><td class="num"><strong>${g.complete}/48</strong></td></tr>
+    <tr><td>Progresso</td><td class="num"><strong>${g.pct}%</strong></td></tr>
+  </table>`;
+}
+
+// ── NAV ──
+function goPg(name,el){
+  curTeam=null;
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sbi').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pg-'+name).classList.add('on');
+  if(el)el.classList.add('on');
+  prevPg=name;
+  const titles={selecoes:'Seleções por Grupo',especiais:'Especiais FWC',entrada:'Voz & Entrada',sync:'Sincronizar / Backup',relatorio:'Relatório'};
+  document.getElementById('tb-ttl').textContent=titles[name]||'';
+  const showF=name==='selecoes';
+  document.getElementById('tb-srch-wrap').style.display=showF?'flex':'none';
+  document.getElementById('tb-flt-wrap').style.display=showF?'flex':'none';
+  if(name==='relatorio')buildReport();
+  if(name==='selecoes')renderGroups();
+  if(name==='sync')updSyncInfo(glSt());
+}
+function openTeam(code){
+  curTeam=code;
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-detail').classList.add('on');
+  const t=TEAMS[code];document.getElementById('tb-ttl').textContent=code+' — '+t.name;
+  document.getElementById('tb-srch-wrap').style.display='none';
+  document.getElementById('tb-flt-wrap').style.display='none';
+  renderDetail();
+}
+function goBack(){
+  curTeam=null;
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-'+prevPg).classList.add('on');
+  const titles={selecoes:'Seleções por Grupo',especiais:'Especiais FWC',entrada:'Voz & Entrada',sync:'Sincronizar / Backup',relatorio:'Relatório'};
+  document.getElementById('tb-ttl').textContent=titles[prevPg]||'';
+  document.getElementById('tb-srch-wrap').style.display=prevPg==='selecoes'?'flex':'none';
+  document.getElementById('tb-flt-wrap').style.display=prevPg==='selecoes'?'flex':'none';
+  renderGroups();updAll();
+}
+
+// ── GROUPS RENDER ──
+function renderGroups(){
+  const q=(document.getElementById('srch').value||'').toLowerCase();
+  const fs=document.getElementById('fstatus').value;
+  const fc=document.getElementById('fconf').value;
+  const wrap=document.getElementById('groupsWrap');
+  let html='';
+  Object.entries(GROUPS).forEach(([gk,gv])=>{
+    const filtered=gv.teams.filter(code=>{
+      const t=TEAMS[code],s=tSt(code);
+      if(q&&!t.name.toLowerCase().includes(q)&&!code.toLowerCase().includes(q))return false;
+      if(fc&&t.conf!==fc)return false;
+      if(fs==='done'&&s.owned!==20)return false;
+      if(fs==='partial'&&(s.owned===0||s.owned===20))return false;
+      if(fs==='empty'&&s.owned!==0)return false;
+      if(fs==='rep'&&s.doubled===0)return false;
+      return true;
+    });
+    if(!filtered.length)return;
+    const grpOwned=filtered.filter(c=>tSt(c).owned===20).length;
+    html+=`<div class="grp-section">
+      <div class="grp-header">
+        <div class="grp-title">${gv.name}</div>
+        <div class="grp-pill">${grpOwned}/${filtered.length} completas</div>
+      </div>
+      <div class="grp-grid">`;
+    filtered.forEach(code=>{
+      const t=TEAMS[code],s=tSt(code),pct=Math.round(s.owned/20*100);
+      const flag=fImg(code,22);
+      html+=`<div class="tcard ${s.owned===20?'done':''} ${t.host?'host-team':''}" onclick="openTeam('${code}')">
+        <div class="tc-head">
+          <span class="tc-code">${code}</span>${flag}
+          <span class="tc-name">${t.name}</span>
+          ${t.host?'<span class="tc-host">SEDE</span>':''}
+        </div>
+        <div class="tc-pills">
+          <span class="pil g">${s.owned}/20</span>
+          ${s.owned<20?`<span class="pil r">${20-s.owned} faltam</span>`:''}
+          ${s.doubled>0?`<span class="pil a">${s.doubled} rep.</span>`:''}
+          ${s.extra>0?`<span class="pil p">${s.extra} extras</span>`:''}
+        </div>
+        <div class="pbar"><div class="pfill" style="width:${pct}%"></div></div>
+        <div class="tc-conf">${t.conf}</div>
+      </div>`;
+    });
+    html+='</div></div>';
+  });
+  wrap.innerHTML=html||'<p style="color:var(--t3);padding:20px">Nenhuma seleção encontrada.</p>';
+}
+
+// ── DETAIL ──
+function renderDetail(){
+  if(!curTeam)return;
+  const t=TEAMS[curTeam],s=tSt(curTeam);
+  const flag=`<div class="d-flag" style="font-size:1px;line-height:0">${fImg(curTeam,56)}</div>`;
+  // find group
+  let grpName='';
+  Object.entries(GROUPS).forEach(([gk,gv])=>{if(gv.teams.includes(curTeam))grpName=gv.name;});
+  document.getElementById('dhdr').innerHTML=`
+    ${flag}
+    <div class="d-body">
+      <div class="d-grp">${grpName} · ${t.conf}${t.host?' · 🏠 SEDE':''}</div>
+      <div class="d-name">${curTeam} — ${t.name}</div>
+      <div class="d-kpis">
+        <div class="dk cg"><div class="dk-v">${s.owned}</div><div class="dk-l">Tenho</div></div>
+        <div class="dk cr"><div class="dk-v">${20-s.owned}</div><div class="dk-l">Faltam</div></div>
+        <div class="dk ca"><div class="dk-v">${s.doubled}</div><div class="dk-l">Repetidas</div></div>
+        <div class="dk cp"><div class="dk-v">${s.extra}</div><div class="dk-l">Extras</div></div>
+      </div>
+      <div class="d-acts">
+        <button class="btn btn-p" onclick="markTeamAll()">Marcar todas</button>
+        <button class="btn btn-s" onclick="clearTeam()">Limpar</button>
+      </div>
+    </div>`;
+  document.getElementById('sgrid').innerHTML=Array.from({length:20},(_,i)=>{
+    const n=i+1,st=gst(curTeam,n),cls=st>=2?'dbl':st>=1?'owned':'',sp=n===1?' spec':'';
+    return`<div class="sc ${cls}${sp}" onclick="tapSc('${curTeam}',${n})" oncontextmenu="showCtx(event,'${curTeam}',${n})">
+      <div class="sc-n">${n}</div><div class="sc-l">${SLBLS[i]}</div>
+      ${st>=2?`<div class="sc-q">${st}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ── FWC ──
+function renderFWC(){
+  const sp=FWC.filter(s=>s.sp),hist=FWC.filter(s=>!s.sp);
+  const mk=(arr,base)=>arr.map((s,i)=>{
+    const idx=base+i,st=gst('FWC',idx+1),cls=st>=2?'dbl':st>=1?'owned':'';
+    return`<div class="sc ${cls} spec" onclick="tapSc('FWC',${idx+1})" oncontextmenu="showCtx(event,'FWC',${idx+1})">
+      <div class="sc-n" style="font-size:10px">${s.code}</div><div class="sc-l">${s.name}</div>
+      ${st>=2?`<div class="sc-q">${st}</div>`:''}
+    </div>`;
+  }).join('');
+  const spO=sp.filter((_,i)=>gst('FWC',i+1)>=1).length;
+  const hO=hist.filter((_,i)=>gst('FWC',sp.length+i+1)>=1).length;
+  document.getElementById('fwcWrap').innerHTML=`
+    <div class="fwc-sec"><div class="fwc-hdr">Especiais brilhantes <span>${spO}/${sp.length}</span></div><div class="sgrid">${mk(sp,0)}</div></div>
+    <div class="fwc-sec"><div class="fwc-hdr">Histórico de Copas <span>${hO}/${hist.length}</span></div><div class="sgrid">${mk(hist,sp.length)}</div></div>`;
+}
+
+// ── STICKERS ──
+function tapSc(code,n){const cur=gst(code,n);sst(code,n,cur>=9?0:cur+1);if(curTeam&&code===curTeam)renderDetail();renderFWC();}
+function showCtx(e,code,n){
+  e.preventDefault();ctxCode=code;ctxNum=n;
+  const lbl=code==='FWC'?FWC[n-1].code:`${code} ${n} — ${SLBLS[n-1]}`;
+  document.getElementById('ctx-hd').textContent=lbl;
+  const m=document.getElementById('ctx');m.classList.add('on');
+  m.style.left=Math.min(e.clientX,window.innerWidth-200)+'px';
+  m.style.top=Math.min(e.clientY,window.innerHeight-300)+'px';
+}
+function ctxSet(v){if(ctxCode!==null)sst(ctxCode,ctxNum,v);if(curTeam&&ctxCode===curTeam)renderDetail();renderFWC();document.getElementById('ctx').classList.remove('on');}
+document.addEventListener('click',()=>document.getElementById('ctx').classList.remove('on'));
+function markTeamAll(){if(!curTeam)return;for(let i=1;i<=20;i++)col[K(curTeam,i)]=1;save();updAll();renderDetail();}
+function clearTeam(){if(!curTeam)return;for(let i=1;i<=20;i++)delete col[K(curTeam,i)];save();updAll();renderDetail();}
+function markAll(){Object.keys(TEAMS).forEach(c=>{for(let i=1;i<=20;i++)col[K(c,i)]=1;});FWC.forEach((_,i)=>col[K('FWC',i+1)]=1);save();updAll();document.getElementById('actmsg').textContent='✅ Todas as 980 marcadas!';}
+function clearAll(){col={};save();updAll();renderGroups();const el=document.getElementById('actmsg');if(el)el.textContent='✅ Coleção limpa.';}
+
+// ── VOICE ──
+const CMAP={'brasil':'BRA','argentina':'ARG','uruguai':'URU','colombia':'COL','colômbia':'COL','equador':'ECU','paraguai':'PAR','franca':'FRA','frança':'FRA','inglaterra':'ENG','espanha':'ESP','alemanha':'GER','portugal':'POR','holanda':'NED','belgica':'BEL','bélgica':'BEL','croacia':'CRO','croácia':'CRO','suica':'SUI','suíça':'SUI','austria':'AUT','áustria':'AUT','escocia':'SCO','escócia':'SCO','turquia':'TUR','tchequia':'CZE','tchéquia':'CZE','estados unidos':'USA','eua':'USA','mexico':'MEX','méxico':'MEX','canada':'CAN','canadá':'CAN','panama':'PAN','panamá':'PAN','marrocos':'MAR','senegal':'SEN','egito':'EGY','costa do marfim':'CIV','argelia':'ALG','argélia':'ALG','gana':'GHA','africa do sul':'RSA','áfrica do sul':'RSA','japao':'JPN','japão':'JPN','coreia':'KOR','australia':'AUS','austrália':'AUS','ira':'IRN','irã':'IRN','arabia':'SAU','arábia':'SAU','catar':'QAT','uzbequistao':'UZB','uzbequistão':'UZB','nova zelandia':'NZL','nova zelândia':'NZL','noruega':'NOR','suecia':'SWE','suécia':'SWE','tunisia':'TUN','tunísia':'TUN','cabo verde':'CPV','curacao':'CUW','curaçao':'CUW','iraque':'IRQ','jordania':'JOR','jordânia':'JOR','bosnia':'BIH','bósnia':'BIH','haiti':'HTI','congo':'CGO','bélgica':'BEL'};
+function parseCmd(txt){
+  txt=txt.toLowerCase().trim();let tc=null;
+  const keys=Object.keys(CMAP).sort((a,b)=>b.length-a.length);
+  for(const k of keys){if(txt.includes(k)){tc=CMAP[k];break;}}
+  if(!tc){const m=txt.match(/\b([a-z]{3})\b/i);if(m){const up=m[1].toUpperCase();if(TEAMS[up]||up==='FWC')tc=up;}}
+  if(txt.includes('fwc'))tc='FWC';
+  const nums=[];const rm=txt.match(/(\d+)\s*(?:a|-|até)\s*(\d+)/);
+  if(rm){for(let i=parseInt(rm[1]);i<=parseInt(rm[2]);i++)nums.push(i);}
+  else(txt.match(/\d+/g)||[]).forEach(n=>nums.push(parseInt(n)));
+  const isRep=txt.includes('repet')||txt.includes('duplic');
+  const isDel=txt.includes('tiro')||txt.includes('remov')||txt.includes('nao tenho')||txt.includes('não tenho');
+  const isAll=txt.includes('complet')||txt.includes('tudo');
+  const qtyM=txt.match(/(\d+)\s*(?:cópia|copia|vez|vezes|x\b)/);
+  if(!tc)return'⚠ Seleção não encontrada.';
+  const maxN=tc==='FWC'?FWC.length:20;
+  if(isAll&&tc!=='FWC'){for(let i=1;i<=20;i++)sst(tc,i,1);return'✅ '+tc+' completo!';}
+  if(!nums.length)return'⚠ Nenhum número detectado.';
+  let qty=isDel?0:isRep?2:1;if(qtyM)qty=parseInt(qtyM[1]);
+  let cnt=0;nums.forEach(n=>{if(n>=1&&n<=maxN){sst(tc,n,qty);cnt++;}});
+  if(!cnt)return'⚠ Números inválidos.';
+  if(curTeam&&tc===curTeam)renderDetail();renderFWC();
+  return'✅ '+tc+' '+nums.join(', ')+' → qtd '+qty;
+}
+let recog=null,listening=false;
+function toggleVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){document.getElementById('vtxt').textContent='⚠ Use o Google Chrome (aberto via INICIAR_ALBUM.bat) para usar o microfone.';return;}
+  if(listening){recog&&recog.stop();return;}
+  recog=new SR();recog.lang='pt-BR';recog.continuous=true;recog.interimResults=true;
+  recog.onstart=()=>{listening=true;const b=document.getElementById('vbtn');b.classList.add('on');b.innerHTML='<svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>🔴 Ouvindo… (clique para parar)';};
+  recog.onresult=(e)=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal){const r=parseCmd(e.results[i][0].transcript.trim());const m=document.getElementById('vmsg');m.textContent=r;m.className='vmsg '+(r.startsWith('✅')?'ok':'err');document.getElementById('vtxt').textContent='"'+e.results[i][0].transcript.trim()+'"';}else interim+=e.results[i][0].transcript;}if(interim)document.getElementById('vtxt').textContent=interim;};
+  recog.onerror=(e)=>{const msgs={'not-allowed':'Permissão negada. Abra o arquivo via INICIAR_ALBUM.bat e permita o microfone no Chrome.','no-speech':'Nenhuma fala detectada.','network':'Erro de rede.'};document.getElementById('vtxt').textContent='⚠ '+(msgs[e.error]||'Erro: '+e.error);};
+  recog.onend=()=>{listening=false;const b=document.getElementById('vbtn');b.classList.remove('on');b.innerHTML='<svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Iniciar reconhecimento de voz';};
+  recog.start();
+}
+function doBulk(){const v=document.getElementById('bulkIn').value.trim();if(!v)return;const res=v.split('|').map(p=>parseCmd(p.trim()));const el=document.getElementById('bmsg');el.textContent=res.join(' · ');el.className='msg '+(res.every(r=>r.startsWith('✅'))?'ok':'err');document.getElementById('bulkIn').value='';}
+function doExport(){const b=new Blob([JSON.stringify(col,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='album_copa_2026.json';a.click();const m=document.getElementById('syncmsg');if(m)m.textContent='✅ Arquivo exportado! Importe no celular para sincronizar.';}
+function doImport(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{col=JSON.parse(ev.target.result);save();updAll();renderGroups();alert('✅ Importado com sucesso!');}catch{alert('⚠ Erro ao importar.');}};r.readAsText(f);}
+
+// ── REPORT ──
+let rptFilter2='all';
+function setRF(f){rptFilter2=f;document.querySelectorAll('.rfb').forEach(b=>b.classList.remove('on'));document.getElementById('rf-'+f).classList.add('on');buildReport();}
+function buildReport(){
+  const rc=document.getElementById('rconf').value;
+  const rs=document.getElementById('rsort').value;
+  // Build rows with group info
+  let rows=[];
+  Object.entries(GROUPS).forEach(([gk,gv])=>{
+    gv.teams.forEach(code=>{
+      const t=TEAMS[code],s=tSt(code);
+      rows.push({code,...t,...s,pct:Math.round(s.owned/20*100),miss:20-s.owned,group:gk,groupName:gv.name});
+    });
+  });
+  if(rc)rows=rows.filter(r=>r.conf===rc);
+  if(rptFilter2==='done')rows=rows.filter(r=>r.owned===20);
+  else if(rptFilter2==='partial')rows=rows.filter(r=>r.owned>0&&r.owned<20);
+  else if(rptFilter2==='empty')rows=rows.filter(r=>r.owned===0);
+  else if(rptFilter2==='rep')rows=rows.filter(r=>r.doubled>0);
+  const sortMap={'owned-desc':(a,b)=>b.owned-a.owned,'owned-asc':(a,b)=>a.owned-b.owned,'name':(a,b)=>a.name.localeCompare(b.name),'group':(a,b)=>a.group.localeCompare(b.group)||a.name.localeCompare(b.name),'rep-desc':(a,b)=>b.doubled-a.doubled,'extra-desc':(a,b)=>b.extra-a.extra};
+  rows.sort(sortMap[rs]||sortMap['owned-desc']);
+  const fw=fwcSt();
+  const g=glSt();
+  const missList=[],repList=[];
+  rows.forEach(r=>{for(let i=1;i<=20;i++){if(!gst(r.code,i))missList.push(r.code+' '+i);const s=gst(r.code,i);if(s>=2)repList.push({l:r.code+' '+i,q:s});}});
+  if(!rc){FWC.forEach((s,i)=>{if(!gst('FWC',i+1))missList.push(s.code);const st=gst('FWC',i+1);if(st>=2)repList.push({l:s.code,q:st});});}
+  document.getElementById('rpt').innerHTML=`
+    <div class="rcard">
+      <div class="rcard-hdr">Resumo geral <span>Total do álbum</span></div>
+      <div class="sum-kpis">
+        <div class="sk g"><div class="sk-v">${g.owned}</div><div class="sk-l">Tenho</div></div>
+        <div class="sk r"><div class="sk-v">${g.missing}</div><div class="sk-l">Faltam</div></div>
+        <div class="sk a"><div class="sk-v">${g.doubled}</div><div class="sk-l">Repetidas</div></div>
+        <div class="sk p"><div class="sk-v">${g.extra}</div><div class="sk-l">Extras</div></div>
+        <div class="sk b"><div class="sk-v">${fw.owned}/${fw.total}</div><div class="sk-l">FWC</div></div>
+        <div class="sk"><div class="sk-v">${g.complete}/48</div><div class="sk-l">Completas</div></div>
+        <div class="sk"><div class="sk-v">${g.pct}%</div><div class="sk-l">Progresso</div></div>
+      </div>
+    </div>
+    <div class="rcard">
+      <div class="rcard-hdr">Por seleção <span>${rows.length} seleção(ões)</span></div>
+      <table class="rtbl">
+        <colgroup><col style="width:8%"><col style="width:22%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:20%"></colgroup>
+        <thead><tr>
+          <th>Grupo</th><th>Seleção</th>
+          <th class="num">Tenho</th><th class="num">Faltam</th>
+          <th class="num">Rep.</th><th class="num">Extras</th>
+          <th>Prog.</th><th>%</th>
+        </tr></thead>
+        <tbody>
+        ${rows.map(r=>`<tr>
+          <td><span class="pill n">G${r.group}</span></td>
+          <td style="font-weight:600">${fImg(r.code,18)} ${r.code} <span style="font-weight:400;color:var(--t2)">${r.name}</span></td>
+          <td class="num"><span class="pill g">${r.owned}</span></td>
+          <td class="num">${r.miss>0?`<span class="pill r">${r.miss}</span>`:'<span class="pill g">✓</span>'}</td>
+          <td class="num">${r.doubled>0?`<span class="pill a">${r.doubled}</span>`:'<span style="color:var(--t3)">—</span>'}</td>
+          <td class="num">${r.extra>0?`<span class="pill p">${r.extra}</span>`:'<span style="color:var(--t3)">—</span>'}</td>
+          <td><div class="pbsm"><div class="pbsm-f" style="width:${r.pct}%"></div></div></td>
+          <td><span class="pill ${r.pct===100?'g':r.pct>50?'b':'n'}">${r.pct}%</span></td>
+        </tr>`).join('')}
+        ${!rc?`<tr style="border-top:2px solid var(--br)"><td>—</td><td style="font-weight:700">⭐ FWC Especiais</td><td class="num"><span class="pill g">${fw.owned}</span></td><td class="num">${fw.total-fw.owned>0?`<span class="pill r">${fw.total-fw.owned}</span>`:'<span class="pill g">✓</span>'}</td><td class="num">${fw.doubled>0?`<span class="pill a">${fw.doubled}</span>`:'<span style="color:var(--t3)">—</span>'}</td><td class="num">${fw.extra>0?`<span class="pill p">${fw.extra}</span>`:'<span style="color:var(--t3)">—</span>'}</td><td><div class="pbsm"><div class="pbsm-f" style="width:${Math.round(fw.owned/fw.total*100)}%"></div></div></td><td><span class="pill n">${Math.round(fw.owned/fw.total*100)}%</span></td></tr>`:''}
+        </tbody>
+      </table>
+    </div>
+    ${repList.length?`<div class="rcard"><div class="rcard-hdr">Repetidas para troca <span>${repList.length} fig.</span></div><div class="chips">${repList.map(r=>`<span class="chip rep" title="${r.q}×">${r.l} ×${r.q}</span>`).join('')}</div></div>`:''}
+    ${missList.length>0&&missList.length<=300?`<div class="rcard"><div class="rcard-hdr">Faltam <span>${missList.length} fig.</span></div><div class="chips">${missList.slice(0,200).map(m=>`<span class="chip m">${m}</span>`).join('')}${missList.length>200?`<span class="chip n">+${missList.length-200}</span>`:''}</div></div>`:''}`;
+}
+function printReport(){
+  buildReport();
+  const c=document.getElementById('rpt').innerHTML;
+  const g=glSt();
+  const now=new Date().toLocaleString('pt-BR');
+  const pct=g.pct;
+
+  const css=`
+    @page{margin:12mm 15mm;size:A4}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#111;font-size:11px}
+    /* HEADER */
+    .ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:3px solid #0a6010}
+    .ph-left h1{font-size:18px;font-weight:800;color:#0a6010;margin-bottom:3px}
+    .ph-left p{font-size:9px;color:#888}
+    .ph-right{text-align:right}
+    .ph-pct{font-size:32px;font-weight:900;color:#0a6010;line-height:1}
+    .ph-pct-l{font-size:9px;color:#888;margin-top:2px}
+    /* PROGRESS */
+    .prog-wrap{margin-bottom:14px}
+    .prog-lbl{display:flex;justify-content:space-between;font-size:9px;color:#666;margin-bottom:3px}
+    .prog-track{height:10px;background:#e8e8e0;border-radius:5px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,#0a6010,#2db030);border-radius:5px}
+    /* SUMMARY GRID */
+    .sum-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px}
+    .sum-cell{border:1px solid #e0dfd6;border-radius:7px;padding:8px;text-align:center;background:#fafaf7}
+    .sum-val{font-size:18px;font-weight:900;line-height:1;margin-bottom:2px}
+    .sum-lbl{font-size:8px;color:#888;text-transform:uppercase;letter-spacing:.04em}
+    .sum-cell.g .sum-val{color:#0a6010}
+    .sum-cell.r .sum-val{color:#c0392b}
+    .sum-cell.a .sum-val{color:#b85c00}
+    .sum-cell.p .sum-val{color:#6d28d9}
+    .sum-cell.b .sum-val{color:#1558a0}
+    /* TABLE */
+    .rcard{border:1px solid #ddd;border-radius:8px;padding:14px;margin-bottom:12px;page-break-inside:avoid}
+    .rcard-title{font-size:12px;font-weight:800;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #0a6010;display:flex;justify-content:space-between;align-items:baseline}
+    .rcard-title span{font-size:9px;color:#999;font-weight:400}
+    table{width:100%;border-collapse:collapse;font-size:10px}
+    thead th{text-align:left;color:#555;font-weight:700;padding:5px 7px;border-bottom:1.5px solid #0a6010;font-size:9px;text-transform:uppercase;letter-spacing:.04em;background:#f5f9f5}
+    tbody td{padding:5px 7px;border-bottom:1px solid #f0f0e8;vertical-align:middle}
+    tbody tr:hover td{background:#fafaf5}
+    tbody tr:last-child td{border-bottom:none}
+    .num{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+    .pbar-sm{height:6px;background:#e8e8e0;border-radius:3px;overflow:hidden;min-width:60px}
+    .pbar-sm-f{height:100%;background:#0a6010;border-radius:3px}
+    /* PILLS */
+    .pill{display:inline-block;padding:2px 7px;border-radius:5px;font-size:9px;font-weight:700}
+    .pill.g{background:#e7f5e8;color:#0a6010}
+    .pill.r{background:#fdecea;color:#c0392b}
+    .pill.a{background:#fff3e0;color:#7a3c00}
+    .pill.p{background:#f3eeff;color:#6d28d9}
+    .pill.b{background:#e8f0fb;color:#0d3570}
+    .pill.n{background:#f5f5f0;color:#555}
+    /* CHIPS */
+    .chips{display:flex;flex-wrap:wrap;gap:4px}
+    .chip{padding:3px 8px;border-radius:5px;font-size:10px;font-weight:600}
+    .chip.rep{background:#fff3e0;color:#7a3c00;border:1px solid #fde08a}
+    .chip.miss{background:#fdecea;color:#7a1010;border:1px solid #fbbcb8}
+    .chip.n{background:#f5f5f0;color:#555}
+    /* FOOTER */
+    .pf{margin-top:14px;padding-top:8px;border-top:1px solid #e0dfd6;display:flex;justify-content:space-between;font-size:8px;color:#aaa}
+    @media print{body{font-size:10px}.rcard{page-break-inside:avoid}}
+  `;
+
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Relatório — Copa 2026</title><style>${css}</style></head><body>
+  <div class="ph">
+    <div class="ph-left">
+      <h1>🏆 Álbum Copa do Mundo 2026 — Relatório da Coleção</h1>
+      <p>Gerado em ${now} · Panini · 980 figurinhas · 48 seleções · 12 grupos</p>
+    </div>
+    <div class="ph-right">
+      <div class="ph-pct">${pct}%</div>
+      <div class="ph-pct-l">completo</div>
+    </div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-lbl"><span>Progresso geral da coleção</span><span>${g.owned} de 980 figurinhas</span></div>
+    <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+  </div>
+  <div class="sum-grid">
+    <div class="sum-cell g"><div class="sum-val">${g.owned}</div><div class="sum-lbl">Tenho</div></div>
+    <div class="sum-cell r"><div class="sum-val">${g.missing}</div><div class="sum-lbl">Faltam</div></div>
+    <div class="sum-cell a"><div class="sum-val">${g.doubled}</div><div class="sum-lbl">Repetidas</div></div>
+    <div class="sum-cell p"><div class="sum-val">${g.extra}</div><div class="sum-lbl">Extras</div></div>
+    <div class="sum-cell b"><div class="sum-val">${g.complete}/48</div><div class="sum-lbl">Completas</div></div>
+    <div class="sum-cell"><div class="sum-val">${fwcSt().owned}/${fwcSt().total}</div><div class="sum-lbl">FWC</div></div>
+  </div>
+  ${c}
+  <div class="pf"><span>🏆 Álbum Copa do Mundo 2026 — Panini</span><span>${now}</span></div>
+  </body></html>`);
+  w.document.close();
+  w.onload=function(){w.print();};
+}
+
+function printMissing(){
+  const g=glSt();
+  const rc=document.getElementById('rconf').value;
+  const now=new Date().toLocaleString('pt-BR');
+  const pct=g.pct;
+
+  // Build missing data by group
+  let totalMiss=0;
+  let groupData=[];
+  Object.entries(GROUPS).forEach(([gk,gv])=>{
+    let teamData=[];
+    gv.teams.forEach(code=>{
+      const t=TEAMS[code];
+      if(rc&&t.conf!==rc)return;
+      const missing=[];
+      for(let i=1;i<=20;i++){if(!gst(code,i))missing.push({n:i,lbl:SLBLS[i-1]});}
+      if(missing.length>0){
+        teamData.push({code,name:t.name,conf:t.conf,host:t.host,missing,total:missing.length,owned:20-missing.length});
+        totalMiss+=missing.length;
+      }
+    });
+    if(teamData.length)groupData.push({gk,name:gv.name,teams:teamData});
+  });
+
+  // FWC missing
+  let fwcMiss=[];
+  if(!rc){FWC.forEach((s,i)=>{if(!gst('FWC',i+1))fwcMiss.push({idx:i+1,code:s.code,name:s.name,sp:s.sp});});}
+
+  if(totalMiss===0&&fwcMiss.length===0){alert('🎉 Parabéns! Sua coleção está completa!');return;}
+
+  const css=`
+    @page{margin:10mm 12mm;size:A4}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#111;font-size:10px}
+    /* HEADER */
+    .ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;padding-bottom:10px;border-bottom:3px solid #0a6010}
+    .ph-left h1{font-size:16px;font-weight:800;color:#0a6010;margin-bottom:2px}
+    .ph-left p{font-size:8px;color:#888;margin-top:1px}
+    .ph-right{text-align:right}
+    .ph-pct{font-size:28px;font-weight:900;color:#0a6010;line-height:1}
+    .ph-pct-l{font-size:8px;color:#888;margin-top:1px}
+    /* PROGRESS */
+    .prog-wrap{margin-bottom:12px}
+    .prog-lbl{display:flex;justify-content:space-between;font-size:8px;color:#666;margin-bottom:3px}
+    .prog-track{height:8px;background:#e8e8e0;border-radius:4px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,#0a6010,#2db030);border-radius:4px}
+    /* SUMMARY */
+    .summary{display:flex;margin-bottom:12px;border:1px solid #e0dfd6;border-radius:7px;overflow:hidden}
+    .sum-cell{flex:1;padding:7px 8px;text-align:center;border-right:1px solid #e0dfd6;background:#fafaf7}
+    .sum-cell:last-child{border-right:none}
+    .sum-val{font-size:16px;font-weight:900;line-height:1}
+    .sum-lbl{font-size:7px;color:#888;text-transform:uppercase;letter-spacing:.03em;margin-top:2px}
+    .sum-cell.g .sum-val{color:#0a6010}
+    .sum-cell.r .sum-val{color:#c0392b}
+    .sum-cell.a .sum-val{color:#b85c00}
+    .sum-cell.p .sum-val{color:#6d28d9}
+    /* INSTRUCTIONS */
+    .instr{background:#fff8e6;border:1px solid #fde08a;border-radius:6px;padding:7px 10px;font-size:8px;color:#7a4f00;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+    /* GROUP BLOCK */
+    .grp-block{margin-bottom:12px;page-break-inside:avoid}
+    .grp-hdr{background:#0a6010;color:#fff;padding:6px 10px;border-radius:6px 6px 0 0;display:flex;align-items:center;gap:8px}
+    .grp-hdr-name{font-size:12px;font-weight:800;letter-spacing:.02em}
+    .grp-hdr-sub{font-size:8px;opacity:.65;margin-left:2px}
+    .grp-hdr-badge{margin-left:auto;font-size:9px;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px}
+    .teams-wrap{border:1px solid #ddd;border-top:none;border-radius:0 0 6px 6px;overflow:hidden}
+    /* TEAM ROW */
+    .team-row{padding:8px 10px;background:#fff;border-bottom:1px solid #eee;page-break-inside:avoid}
+    .team-row:nth-child(even){background:#fafaf8}
+    .team-row:last-child{border-bottom:none}
+    .team-hdr{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+    .team-flag{font-size:13px;line-height:1}
+    .team-code{font-size:12px;font-weight:800;color:#0a6010;min-width:32px}
+    .team-name{font-size:11px;font-weight:700;color:#111;flex:1}
+    .team-host{font-size:8px;padding:1px 5px;border-radius:3px;background:#e7f5e8;color:#0a6010;font-weight:700;border:1px solid rgba(10,96,16,.2)}
+    .team-stats{display:flex;align-items:center;gap:7px;margin-left:auto}
+    .team-owned{font-size:9px;font-weight:700;color:#0a6010}
+    .team-miss-badge{font-size:9px;font-weight:800;color:#c0392b;background:#fdecea;padding:2px 7px;border-radius:10px;border:1px solid #fbbcb8}
+    .mini-prog{width:55px;height:5px;background:#e8e8e0;border-radius:3px;overflow:hidden}
+    .mini-prog-f{height:100%;background:#0a6010;border-radius:3px}
+    /* STICKER GRID */
+    .stk-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+    .stk{border:1.5px solid #e4e0d8;border-radius:5px;padding:5px 6px;display:flex;align-items:center;gap:5px;background:#fffffe}
+    .stk:hover{background:#f8f8f4}
+    .stk-cb{width:13px;height:13px;border:1.5px solid #bbb;border-radius:3px;flex-shrink:0;background:#fff}
+    .stk-num{font-size:12px;font-weight:900;color:#c0392b;line-height:1;min-width:14px}
+    .stk-lbl{font-size:8px;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;margin-top:1px;flex:1}
+    .stk.spec{border-color:#b8d4f5;background:#f4f8ff}
+    .stk.spec .stk-num{color:#1558a0}
+    .stk.spec .stk-cb{border-color:#89b4e8}
+    /* FWC */
+    .fwc-block{margin-bottom:12px;page-break-inside:avoid}
+    .fwc-hdr{background:#1558a0;color:#fff;padding:6px 10px;border-radius:6px 6px 0 0;display:flex;align-items:center}
+    .fwc-hdr-name{font-size:12px;font-weight:800}
+    .fwc-hdr-badge{margin-left:auto;font-size:9px;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px}
+    .fwc-body{border:1px solid #b8d4f5;border-top:none;padding:8px 10px;border-radius:0 0 6px 6px;background:#f8fbff}
+    .fwc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+    .fstk{border:1.5px solid #b8d4f5;border-radius:5px;padding:6px;display:flex;align-items:center;gap:5px;background:#fff}
+    .fstk.sp{background:#fffbea;border-color:#f0c040}
+    .fstk-cb{width:13px;height:13px;border:1.5px solid #89b4e8;border-radius:3px;flex-shrink:0;background:#fff}
+    .fstk.sp .fstk-cb{border-color:#d4a020}
+    .fstk-code{font-size:10px;font-weight:800;color:#1558a0;min-width:38px;line-height:1}
+    .fstk.sp .fstk-code{color:#a07000}
+    .fstk-name{font-size:8px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;flex:1}
+    /* FOOTER */
+    .pf{margin-top:14px;padding-top:8px;border-top:1px solid #e0dfd6;display:flex;justify-content:space-between;font-size:8px;color:#aaa}
+    @media print{body{font-size:9px}.grp-block,.team-row,.fwc-block{page-break-inside:avoid}}
+  `;
+
+  // Build groups HTML
+  let groupsHTML='';
+  groupData.forEach(({gk,name,teams})=>{
+    const grpTotal=teams.reduce((a,t)=>a+t.total,0);
+    let teamsHTML='';
+    teams.forEach(({code,name:tname,host,missing,total,owned})=>{
+      const pct2=Math.round(owned/20*100);
+      const isoCode=(FLAG_ISO||{})[code]||'';
+      const flagSpan=isoCode?`<span class="fi fi-${isoCode}" style="font-size:13px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.1);vertical-align:middle"></span>`:'';
+      teamsHTML+=`<div class="team-row">
+        <div class="team-hdr">
+          ${flagSpan}
+          <span class="team-code">${code}</span>
+          <span class="team-name">${tname}</span>
+          ${host?'<span class="team-host">SEDE</span>':''}
+          <div class="team-stats">
+            <div class="mini-prog"><div class="mini-prog-f" style="width:${pct2}%"></div></div>
+            <span class="team-owned">${owned}/20</span>
+            <span class="team-miss-badge">−${total}</span>
+          </div>
+        </div>
+        <div class="stk-grid">
+          ${missing.map(({n,lbl})=>`<div class="stk${n===1?' spec':''}">
+            <div class="stk-cb"></div>
+            <div class="stk-num">${n}</div>
+            <div class="stk-lbl">${lbl}</div>
+          </div>`).join('')}
+        </div>
+      </div>`;
+    });
+    groupsHTML+=`<div class="grp-block">
+      <div class="grp-hdr">
+        <span class="grp-hdr-name">${name}</span>
+        <span class="grp-hdr-sub">(${teams.length} seleção${teams.length>1?'ões':''})</span>
+        <span class="grp-hdr-badge">⬇ ${grpTotal} figurinha${grpTotal>1?'s':''}</span>
+      </div>
+      <div class="teams-wrap">${teamsHTML}</div>
+    </div>`;
+  });
+
+  // FWC HTML
+  let fwcHTML='';
+  if(fwcMiss.length){
+    const spMiss=fwcMiss.filter(s=>s.sp);
+    const histMiss=fwcMiss.filter(s=>!s.sp);
+    fwcHTML=`<div class="fwc-block">
+      <div class="fwc-hdr">
+        <span class="fwc-hdr-name">⭐ Especiais FWC</span>
+        <span class="fwc-hdr-badge">⬇ ${fwcMiss.length} faltando</span>
+      </div>
+      <div class="fwc-body">
+        ${spMiss.length?`<div style="font-size:9px;font-weight:700;color:#a07000;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Figurinhas de abertura (${spMiss.length})</div>
+        <div class="fwc-grid" style="margin-bottom:8px">
+          ${spMiss.map(s=>`<div class="fstk sp">
+            <div class="fstk-cb"></div>
+            <div class="fstk-code">${s.code==='00'?'00':s.code}</div>
+            <div class="fstk-name">${s.name}</div>
+          </div>`).join('')}
+        </div>`:''}
+        ${histMiss.length?`<div style="font-size:9px;font-weight:700;color:#1558a0;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Copas históricas (${histMiss.length})</div>
+        <div class="fwc-grid">
+          ${histMiss.map(s=>`<div class="fstk">
+            <div class="fstk-cb"></div>
+            <div class="fstk-code">${s.code}</div>
+            <div class="fstk-name">${s.name}</div>
+          </div>`).join('')}
+        </div>`:''}
+      </div>
+    </div>`;
+  }
+
+  const html=`<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Faltantes — Copa 2026</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/css/flag-icons.min.css">
+<style>${css}</style>
+</head>
+<body>
+<div class="ph">
+  <div class="ph-left">
+    <h1>🏆 Álbum Copa 2026 — Figurinhas que Faltam</h1>
+    <p>Gerado em ${now} · Marque as caixinhas conforme for colando as figurinhas ✓${rc?' · Filtro: '+rc:''}</p>
+  </div>
+  <div class="ph-right">
+    <div class="ph-pct">${pct}%</div>
+    <div class="ph-pct-l">completo</div>
+  </div>
+</div>
+<div class="prog-wrap">
+  <div class="prog-lbl"><span>Progresso geral</span><span>${g.owned} de 980</span></div>
+  <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+</div>
+<div class="summary">
+  <div class="sum-cell g"><div class="sum-val">${g.owned}</div><div class="sum-lbl">Tenho</div></div>
+  <div class="sum-cell r"><div class="sum-val">${g.missing}</div><div class="sum-lbl">Faltam</div></div>
+  <div class="sum-cell"><div class="sum-val">${g.complete}/48</div><div class="sum-lbl">Seleções ok</div></div>
+  <div class="sum-cell a"><div class="sum-val">${g.doubled}</div><div class="sum-lbl">Repetidas</div></div>
+  <div class="sum-cell p"><div class="sum-val">${g.extra}</div><div class="sum-lbl">Extras</div></div>
+</div>
+<div class="instr">
+  <span style="font-size:14px">✏️</span>
+  <span><strong>Como usar:</strong> marque cada caixinha □ quando encontrar a figurinha e colá-la no álbum. O número vermelho é o número da figurinha dentro da seleção.</span>
+</div>
+${groupsHTML}
+${fwcHTML}
+<div class="pf">
+  <span>🏆 Álbum Copa do Mundo 2026 — Panini · 48 seleções · 12 grupos</span>
+  <span>Gerado em ${now}</span>
+</div>
+</body>
+</html>`;
+
+  const w=window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+  w.onload=function(){w.print();};
+}
+
+load();updAll();renderGroups();renderFWC();
+</script>
+</body>
+</html>
