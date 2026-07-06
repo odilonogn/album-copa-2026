@@ -961,226 +961,98 @@ function printMissing(){
   const g=glSt();
   const rc=document.getElementById('rconf').value;
   const now=new Date().toLocaleString('pt-BR');
-  const pct=g.pct;
 
-  // Build missing data by group
+  const sortedTeams=Object.entries(TEAMS)
+    .map(([code,t])=>({code,...t}))
+    .sort((a,b)=>a.name.localeCompare(b.name,'pt'));
+
+  let teamRows=[];
   let totalMiss=0;
-  let groupData=[];
-  Object.entries(GROUPS).forEach(([gk,gv])=>{
-    let teamData=[];
-    gv.teams.forEach(code=>{
-      const t=TEAMS[code];
-      if(rc&&t.conf!==rc)return;
-      const missing=[];
-      for(let i=1;i<=20;i++){if(!gst(code,i))missing.push({n:i,lbl:SLBLS[i-1]});}
-      if(missing.length>0){
-        teamData.push({code,name:t.name,conf:t.conf,host:t.host,missing,total:missing.length,owned:20-missing.length});
-        totalMiss+=missing.length;
-      }
-    });
-    if(teamData.length)groupData.push({gk,name:gv.name,teams:teamData});
+  sortedTeams.forEach(t=>{
+    if(rc&&t.conf!==rc)return;
+    const missing=[];
+    for(let i=1;i<=20;i++){if(!gst(t.code,i))missing.push(i);}
+    if(missing.length>0){teamRows.push({code:t.code,name:t.name,host:t.host,missing,total:missing.length,owned:20-missing.length});totalMiss+=missing.length;}
   });
-
-  // FWC missing
   let fwcMiss=[];
-  if(!rc){FWC.forEach((s,i)=>{if(!gst('FWC',i+1))fwcMiss.push({idx:i+1,code:s.code,name:s.name,sp:s.sp});});}
+  if(!rc){FWC.forEach((s,i)=>{if(!gst('FWC',i+1))fwcMiss.push({code:s.code,name:s.name,sp:s.sp});});}
+  if(teamRows.length===0&&fwcMiss.length===0){alert('Coleção completa!');return;}
 
-  if(totalMiss===0&&fwcMiss.length===0){alert('🎉 Parabéns! Sua coleção está completa!');return;}
+  const allRows=[...teamRows];
+  if(fwcMiss.length>0)allRows.push({fwc:true});
+  const half=Math.ceil(allRows.length/2);
+  const leftRows=allRows.slice(0,half);
+  const rightRows=allRows.slice(half);
 
-  const css=`
-    @page{margin:10mm 12mm;size:A4}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#111;font-size:10px}
-    /* HEADER */
-    .ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;padding-bottom:10px;border-bottom:3px solid #0a6010}
-    .ph-left h1{font-size:16px;font-weight:800;color:#0a6010;margin-bottom:2px}
-    .ph-left p{font-size:8px;color:#888;margin-top:1px}
-    .ph-right{text-align:right}
-    .ph-pct{font-size:28px;font-weight:900;color:#0a6010;line-height:1}
-    .ph-pct-l{font-size:8px;color:#888;margin-top:1px}
-    /* PROGRESS */
-    .prog-wrap{margin-bottom:12px}
-    .prog-lbl{display:flex;justify-content:space-between;font-size:8px;color:#666;margin-bottom:3px}
-    .prog-track{height:8px;background:#e8e8e0;border-radius:4px;overflow:hidden}
-    .prog-fill{height:100%;background:linear-gradient(90deg,#0a6010,#2db030);border-radius:4px}
-    /* SUMMARY */
-    .summary{display:flex;margin-bottom:12px;border:1px solid #e0dfd6;border-radius:7px;overflow:hidden}
-    .sum-cell{flex:1;padding:7px 8px;text-align:center;border-right:1px solid #e0dfd6;background:#fafaf7}
-    .sum-cell:last-child{border-right:none}
-    .sum-val{font-size:16px;font-weight:900;line-height:1}
-    .sum-lbl{font-size:7px;color:#888;text-transform:uppercase;letter-spacing:.03em;margin-top:2px}
-    .sum-cell.g .sum-val{color:#0a6010}
-    .sum-cell.r .sum-val{color:#c0392b}
-    .sum-cell.a .sum-val{color:#b85c00}
-    .sum-cell.p .sum-val{color:#6d28d9}
-    /* INSTRUCTIONS */
-    .instr{background:#fff8e6;border:1px solid #fde08a;border-radius:6px;padding:7px 10px;font-size:8px;color:#7a4f00;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-    /* GROUP BLOCK */
-    .grp-block{margin-bottom:12px;page-break-inside:avoid}
-    .grp-hdr{background:#0a6010;color:#fff;padding:6px 10px;border-radius:6px 6px 0 0;display:flex;align-items:center;gap:8px}
-    .grp-hdr-name{font-size:12px;font-weight:800;letter-spacing:.02em}
-    .grp-hdr-sub{font-size:8px;opacity:.65;margin-left:2px}
-    .grp-hdr-badge{margin-left:auto;font-size:9px;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px}
-    .teams-wrap{border:1px solid #ddd;border-top:none;border-radius:0 0 6px 6px;overflow:hidden}
-    /* TEAM ROW */
-    .team-row{padding:8px 10px;background:#fff;border-bottom:1px solid #eee;page-break-inside:avoid}
-    .team-row:nth-child(even){background:#fafaf8}
-    .team-row:last-child{border-bottom:none}
-    .team-hdr{display:flex;align-items:center;gap:7px;margin-bottom:6px}
-    .team-flag{font-size:13px;line-height:1}
-    .team-code{font-size:12px;font-weight:800;color:#0a6010;min-width:32px}
-    .team-name{font-size:11px;font-weight:700;color:#111;flex:1}
-    .team-host{font-size:8px;padding:1px 5px;border-radius:3px;background:#e7f5e8;color:#0a6010;font-weight:700;border:1px solid rgba(10,96,16,.2)}
-    .team-stats{display:flex;align-items:center;gap:7px;margin-left:auto}
-    .team-owned{font-size:9px;font-weight:700;color:#0a6010}
-    .team-miss-badge{font-size:9px;font-weight:800;color:#c0392b;background:#fdecea;padding:2px 7px;border-radius:10px;border:1px solid #fbbcb8}
-    .mini-prog{width:55px;height:5px;background:#e8e8e0;border-radius:3px;overflow:hidden}
-    .mini-prog-f{height:100%;background:#0a6010;border-radius:3px}
-    /* STICKER GRID */
-    .stk-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
-    .stk{border:1.5px solid #e4e0d8;border-radius:5px;padding:5px 6px;display:flex;align-items:center;gap:5px;background:#fffffe}
-    .stk:hover{background:#f8f8f4}
-    .stk-cb{width:13px;height:13px;border:1.5px solid #bbb;border-radius:3px;flex-shrink:0;background:#fff}
-    .stk-num{font-size:12px;font-weight:900;color:#c0392b;line-height:1;min-width:14px}
-    .stk-lbl{font-size:8px;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;margin-top:1px;flex:1}
-    .stk.spec{border-color:#b8d4f5;background:#f4f8ff}
-    .stk.spec .stk-num{color:#1558a0}
-    .stk.spec .stk-cb{border-color:#89b4e8}
-    /* FWC */
-    .fwc-block{margin-bottom:12px;page-break-inside:avoid}
-    .fwc-hdr{background:#1558a0;color:#fff;padding:6px 10px;border-radius:6px 6px 0 0;display:flex;align-items:center}
-    .fwc-hdr-name{font-size:12px;font-weight:800}
-    .fwc-hdr-badge{margin-left:auto;font-size:9px;font-weight:700;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px}
-    .fwc-body{border:1px solid #b8d4f5;border-top:none;padding:8px 10px;border-radius:0 0 6px 6px;background:#f8fbff}
-    .fwc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-    .fstk{border:1.5px solid #b8d4f5;border-radius:5px;padding:6px;display:flex;align-items:center;gap:5px;background:#fff}
-    .fstk.sp{background:#fffbea;border-color:#f0c040}
-    .fstk-cb{width:13px;height:13px;border:1.5px solid #89b4e8;border-radius:3px;flex-shrink:0;background:#fff}
-    .fstk.sp .fstk-cb{border-color:#d4a020}
-    .fstk-code{font-size:10px;font-weight:800;color:#1558a0;min-width:38px;line-height:1}
-    .fstk.sp .fstk-code{color:#a07000}
-    .fstk-name{font-size:8px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;flex:1}
-    /* FOOTER */
-    .pf{margin-top:14px;padding-top:8px;border-top:1px solid #e0dfd6;display:flex;justify-content:space-between;font-size:8px;color:#aaa}
-    @media print{body{font-size:9px}.grp-block,.team-row,.fwc-block{page-break-inside:avoid}}
-  `;
-
-  // Build groups HTML
-  let groupsHTML='';
-  groupData.forEach(({gk,name,teams})=>{
-    const grpTotal=teams.reduce((a,t)=>a+t.total,0);
-    let teamsHTML='';
-    teams.forEach(({code,name:tname,host,missing,total,owned})=>{
-      const pct2=Math.round(owned/20*100);
-      const isoCode=(FLAG_ISO||{})[code]||'';
-      const flagSpan=isoCode?`<span class="fi fi-${isoCode}" style="font-size:13px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.1);vertical-align:middle"></span>`:'';
-      teamsHTML+=`<div class="team-row">
-        <div class="team-hdr">
-          ${flagSpan}
-          <span class="team-code">${code}</span>
-          <span class="team-name">${tname}</span>
-          ${host?'<span class="team-host">SEDE</span>':''}
-          <div class="team-stats">
-            <div class="mini-prog"><div class="mini-prog-f" style="width:${pct2}%"></div></div>
-            <span class="team-owned">${owned}/20</span>
-            <span class="team-miss-badge">−${total}</span>
-          </div>
-        </div>
-        <div class="stk-grid">
-          ${missing.map(({n,lbl})=>`<div class="stk${n===1?' spec':''}">
-            <div class="stk-cb"></div>
-            <div class="stk-num">${n}</div>
-            <div class="stk-lbl">${lbl}</div>
-          </div>`).join('')}
-        </div>
-      </div>`;
-    });
-    groupsHTML+=`<div class="grp-block">
-      <div class="grp-hdr">
-        <span class="grp-hdr-name">${name}</span>
-        <span class="grp-hdr-sub">(${teams.length} seleção${teams.length>1?'ões':''})</span>
-        <span class="grp-hdr-badge">⬇ ${grpTotal} figurinha${grpTotal>1?'s':''}</span>
-      </div>
-      <div class="teams-wrap">${teamsHTML}</div>
-    </div>`;
-  });
-
-  // FWC HTML
-  let fwcHTML='';
-  if(fwcMiss.length){
-    const spMiss=fwcMiss.filter(s=>s.sp);
-    const histMiss=fwcMiss.filter(s=>!s.sp);
-    fwcHTML=`<div class="fwc-block">
-      <div class="fwc-hdr">
-        <span class="fwc-hdr-name">⭐ Especiais FWC</span>
-        <span class="fwc-hdr-badge">⬇ ${fwcMiss.length} faltando</span>
-      </div>
-      <div class="fwc-body">
-        ${spMiss.length?`<div style="font-size:9px;font-weight:700;color:#a07000;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Figurinhas de abertura (${spMiss.length})</div>
-        <div class="fwc-grid" style="margin-bottom:8px">
-          ${spMiss.map(s=>`<div class="fstk sp">
-            <div class="fstk-cb"></div>
-            <div class="fstk-code">${s.code==='00'?'00':s.code}</div>
-            <div class="fstk-name">${s.name}</div>
-          </div>`).join('')}
-        </div>`:''}
-        ${histMiss.length?`<div style="font-size:9px;font-weight:700;color:#1558a0;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Copas históricas (${histMiss.length})</div>
-        <div class="fwc-grid">
-          ${histMiss.map(s=>`<div class="fstk">
-            <div class="fstk-cb"></div>
-            <div class="fstk-code">${s.code}</div>
-            <div class="fstk-name">${s.name}</div>
-          </div>`).join('')}
-        </div>`:''}
-      </div>
-    </div>`;
+  function renderRow(row){
+    if(row.fwc){
+      const nums=fwcMiss.map(s=>`<span class="n${s.sp?' sp':''}">${s.code.replace('FWC-','')===s.code?s.code:s.code.replace('FWC-','F')}</span>`).join('');
+      return`<div class="tr ftr"><div class="tc">⭐ <b>FWC Especiais</b><span class="mb">−${fwcMiss.length}</span></div><div class="tn">${nums}</div></div>`;
+    }
+    const isoCode=(FLAG_ISO||{})[row.code]||'';
+    const flagH=isoCode?`<span class="fi fi-${isoCode}" style="font-size:.95em;border-radius:1px;vertical-align:middle;box-shadow:0 0 0 1px rgba(0,0,0,.1)"></span> `:'';
+    const nums=row.missing.map(n=>`<span class="n${n===1?' sp':''}">${n}</span>`).join('');
+    return`<div class="tr"><div class="tc">${flagH}<b>${row.name}</b> <span class="cd">${row.code}</span><span class="mb">−${row.total}</span></div><div class="tn">${nums}</div></div>`;
   }
 
-  const html=`<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<title>Faltantes — Copa 2026</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/css/flag-icons.min.css">
-<style>${css}</style>
-</head>
-<body>
-<div class="ph">
-  <div class="ph-left">
-    <h1>🏆 Álbum Copa 2026 — Figurinhas que Faltam</h1>
-    <p>Gerado em ${now} · Marque as caixinhas conforme for colando as figurinhas ✓${rc?' · Filtro: '+rc:''}</p>
-  </div>
-  <div class="ph-right">
-    <div class="ph-pct">${pct}%</div>
-    <div class="ph-pct-l">completo</div>
-  </div>
-</div>
-<div class="prog-wrap">
-  <div class="prog-lbl"><span>Progresso geral</span><span>${g.owned} de 980</span></div>
-  <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
-</div>
-<div class="summary">
-  <div class="sum-cell g"><div class="sum-val">${g.owned}</div><div class="sum-lbl">Tenho</div></div>
-  <div class="sum-cell r"><div class="sum-val">${g.missing}</div><div class="sum-lbl">Faltam</div></div>
-  <div class="sum-cell"><div class="sum-val">${g.complete}/48</div><div class="sum-lbl">Seleções ok</div></div>
-  <div class="sum-cell a"><div class="sum-val">${g.doubled}</div><div class="sum-lbl">Repetidas</div></div>
-  <div class="sum-cell p"><div class="sum-val">${g.extra}</div><div class="sum-lbl">Extras</div></div>
-</div>
-<div class="instr">
-  <span style="font-size:14px">✏️</span>
-  <span><strong>Como usar:</strong> marque cada caixinha □ quando encontrar a figurinha e colá-la no álbum. O número vermelho é o número da figurinha dentro da seleção.</span>
-</div>
-${groupsHTML}
-${fwcHTML}
-<div class="pf">
-  <span>🏆 Álbum Copa do Mundo 2026 — Panini · 48 seleções · 12 grupos</span>
-  <span>Gerado em ${now}</span>
-</div>
-</body>
-</html>`;
+  const css=`
+    @page{size:A4 landscape;margin:7mm 9mm}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;font-size:7.5pt;color:#111;background:#fff}
+    .hdr{display:flex;align-items:center;gap:10px;margin-bottom:5px;padding-bottom:4px;border-bottom:2.5px solid #0a6010}
+    .hdr h1{font-size:11pt;font-weight:800;color:#0a6010}
+    .hdr-sub{font-size:7pt;color:#888;margin-top:1px}
+    .hdr-pct{font-size:20pt;font-weight:900;color:#0a6010;line-height:1;margin-left:auto;text-align:right}
+    .hdr-pct span{font-size:7pt;color:#888;font-weight:400;display:block}
+    .prog{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+    .prog-track{flex:1;height:5px;background:#e8e8e0;border-radius:3px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,#0a6010,#2db030);border-radius:3px}
+    .prog-lbl{font-size:7pt;color:#666;white-space:nowrap}
+    .sum{display:flex;gap:5px;margin-bottom:5px}
+    .sc{border:1px solid #ddd;border-radius:4px;padding:3px 6px;text-align:center;background:#fafaf7;flex:1}
+    .sc-v{font-size:10pt;font-weight:900;line-height:1}.sc-l{font-size:6pt;color:#999;text-transform:uppercase;margin-top:1px}
+    .sc.g .sc-v{color:#0a6010}.sc.r .sc-v{color:#c0392b}.sc.a .sc-v{color:#b85c00}.sc.p .sc-v{color:#6d28d9}
+    .instr{font-size:6.5pt;color:#999;margin-bottom:4px;font-style:italic}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+    .col-h{font-size:6.5pt;font-weight:700;color:#fff;padding:2px 5px;background:#0a6010;border-radius:3px 3px 0 0;text-transform:uppercase;letter-spacing:.04em}
+    .tr{display:flex;align-items:center;gap:4px;padding:1.5px 3px;border-bottom:1px solid #f0ede4;min-height:15px}
+    .tr:nth-child(even){background:#fafaf8}
+    .ftr{background:#eff6ff!important;border-bottom:1px solid #c8ddf5!important}
+    .tc{flex:0 0 142px;display:flex;align-items:center;gap:3px;overflow:hidden;font-size:7.5pt}
+    .tc b{font-weight:700;font-size:8pt;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px}
+    .cd{font-size:6pt;color:#bbb;margin-left:1px;flex-shrink:0}
+    .mb{font-size:6.5pt;font-weight:700;color:#c0392b;background:#fdecea;padding:0 3px;border-radius:3px;border:1px solid #fbbcb8;flex-shrink:0;margin-left:auto}
+    .tn{flex:1;display:flex;flex-wrap:wrap;gap:2px;align-items:center}
+    .n{display:inline-flex;align-items:center;justify-content:center;min-width:15px;height:13px;padding:0 2px;border-radius:2px;font-size:7pt;font-weight:700;color:#c0392b;background:#fdecea;border:1px solid #fbbcb8;line-height:1}
+    .n.sp{color:#1558a0;background:#e8f0fb;border-color:#b8d4f5}
+    .ft{margin-top:5px;padding-top:4px;border-top:1px solid #e0dfd6;display:flex;justify-content:space-between;font-size:6.5pt;color:#aaa}
+    @media print{*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}
+  `;
 
   const w=window.open('','_blank');
-  w.document.write(html);
+  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Faltantes Copa 2026</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/css/flag-icons.min.css">
+  <style>${css}</style></head><body>
+  <div class="hdr">
+    <div><h1>🏆 Álbum Copa 2026 — Figurinhas que Faltam</h1>
+    <div class="hdr-sub">Gerado em ${now}${rc?' · Conf.: '+rc:''} · Marque ao colar cada figurinha</div></div>
+    <div class="hdr-pct">${g.pct}%<span>completo</span></div>
+  </div>
+  <div class="prog"><div class="prog-track"><div class="prog-fill" style="width:${g.pct}%"></div></div><div class="prog-lbl">${g.owned}/980</div></div>
+  <div class="sum">
+    <div class="sc g"><div class="sc-v">${g.owned}</div><div class="sc-l">Tenho</div></div>
+    <div class="sc r"><div class="sc-v">${g.missing}</div><div class="sc-l">Faltam</div></div>
+    <div class="sc"><div class="sc-v">${g.complete}/48</div><div class="sc-l">Completas</div></div>
+    <div class="sc a"><div class="sc-v">${g.doubled}</div><div class="sc-l">Repetidas</div></div>
+    <div class="sc p"><div class="sc-v">${g.extra}</div><div class="sc-l">Extras</div></div>
+  </div>
+  <div class="instr">Números em vermelho = figurinhas normais · Azul = especial (escudo/FWC) · Ordem alfabética</div>
+  <div class="cols">
+    <div class="col"><div class="col-h">A — M</div>${leftRows.map(renderRow).join('')}</div>
+    <div class="col"><div class="col-h">N — Z + FWC</div>${rightRows.map(renderRow).join('')}</div>
+  </div>
+  <div class="ft"><span>🏆 Álbum Copa do Mundo 2026 — Panini · 48 seleções · 980 figurinhas</span><span>${now}</span></div>
+  </body></html>`);
   w.document.close();
   w.onload=function(){w.print();};
 }
