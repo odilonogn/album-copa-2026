@@ -523,25 +523,39 @@ var rptFilter='all';
 function setRF(f,el){rptFilter=f;document.querySelectorAll('.rfb').forEach(function(b){b.classList.remove('on');});el.classList.add('on');buildReport();}
 function buildReport(){
   var rows=[];
-  Object.keys(GROUPS).forEach(function(gk){GROUPS[gk].teams.forEach(function(code){var t=TEAMS[code],s=tSt(code);rows.push({code:code,name:t.name,conf:t.conf,group:gk,owned:s.owned,doubled:s.doubled,extra:s.extra,pct:Math.round(s.owned/20*100),miss:20-s.owned});});});
+  Object.keys(TEAMS).forEach(function(code){
+    var t=TEAMS[code],s=tSt(code);
+    var grp='';
+    Object.keys(GROUPS).forEach(function(gk){if(GROUPS[gk].teams.indexOf(code)>=0)grp=gk;});
+    rows.push({code:code,name:t.name,conf:t.conf,group:grp,owned:s.owned,doubled:s.doubled,extra:s.extra,pct:Math.round(s.owned/20*100),miss:20-s.owned});
+  });
   if(rptFilter==='done')rows=rows.filter(function(r){return r.owned===20;});
   else if(rptFilter==='partial')rows=rows.filter(function(r){return r.owned>0&&r.owned<20;});
   else if(rptFilter==='empty')rows=rows.filter(function(r){return r.owned===0;});
   else if(rptFilter==='rep')rows=rows.filter(function(r){return r.doubled>0;});
-  rows.sort(function(a,b){return b.owned-a.owned;});
+  // Always sort alphabetically by name
+  rows.sort(function(a,b){return a.name.localeCompare(b.name,'pt');});
   var fw=fwcSt(),g=glSt();
   var missList=[],repList=[];
   rows.forEach(function(r){for(var i=1;i<=20;i++){if(!gst(r.code,i))missList.push(r.code+' '+i);var s=gst(r.code,i);if(s>=2)repList.push({l:r.code+' '+i,q:s});}});
   FWC.forEach(function(s,i){if(!gst('FWC',i+1))missList.push(s.code);var st=gst('FWC',i+1);if(st>=2)repList.push({l:s.code,q:st});});
   var h='<div class="rcard"><div class="rc-t">Resumo</div><div class="skgrid"><div class="sk g"><div class="sk-v">'+g.owned+'</div><div class="sk-l">Tenho</div></div><div class="sk r"><div class="sk-v">'+g.missing+'</div><div class="sk-l">Faltam</div></div><div class="sk a"><div class="sk-v">'+g.doubled+'</div><div class="sk-l">Repetidas</div></div><div class="sk p"><div class="sk-v">'+g.extra+'</div><div class="sk-l">Extras</div></div><div class="sk"><div class="sk-v">'+fw.owned+'/'+fw.total+'</div><div class="sk-l">FWC</div></div><div class="sk"><div class="sk-v">'+g.pct+'%</div><div class="sk-l">Progresso</div></div></div></div>';
-  h+='<div class="rcard"><div class="rc-t">Por seleção <span>'+rows.length+'</span></div><table class="rtbl"><colgroup><col style="width:8%"><col style="width:34%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:22%"></colgroup><thead><tr><th>Grp</th><th>Seleção</th><th class="num">Ten</th><th class="num">Flt</th><th class="num">Rep</th><th>%</th></tr></thead><tbody>';
-  rows.forEach(function(r){h+='<tr><td><span class="pill n">G'+r.group+'</span></td><td style="font-weight:600">'+r.code+'</td><td class="num"><span class="pill g">'+r.owned+'</span></td><td class="num">'+(r.miss>0?'<span class="pill r">'+r.miss+'</span>':'<span class="pill g">✓</span>')+'</td><td class="num">'+(r.doubled>0?'<span class="pill a">'+r.doubled+'</span>':'—')+'</td><td><div class="pbsm"><div class="pbsm-f" style="width:'+r.pct+'%"></div></div></td></tr>';});
+  h+='<div class="rcard"><div class="rc-t">Por seleção (A-Z) <span>'+rows.length+'</span></div><table class="rtbl"><colgroup><col style="width:42%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:22%"></colgroup><thead><tr><th>Seleção</th><th class="num">Ten</th><th class="num">Flt</th><th class="num">Rep</th><th>%</th></tr></thead><tbody>';
+  rows.forEach(function(r){
+    h+='<tr>';
+    h+='<td><span style="font-weight:800;font-size:12px">'+r.name+'</span> <span style="font-size:9px;color:var(--t3)">'+r.code+'</span></td>';
+    h+='<td class="num"><span class="pill g">'+r.owned+'</span></td>';
+    h+='<td class="num">'+(r.miss>0?'<span class="pill r">'+r.miss+'</span>':'<span class="pill g">✓</span>')+'</td>';
+    h+='<td class="num">'+(r.doubled>0?'<span class="pill a">'+r.doubled+'</span>':'—')+'</td>';
+    h+='<td><div class="pbsm"><div class="pbsm-f" style="width:'+r.pct+'%"></div></div></td>';
+    h+='</tr>';
+  });
+  h+='<tr style="border-top:2px solid var(--br)"><td><span style="font-weight:800;font-size:12px">⭐ FWC Especiais</span></td><td class="num"><span class="pill g">'+fw.owned+'</span></td><td class="num">'+(fw.total-fw.owned>0?'<span class="pill r">'+(fw.total-fw.owned)+'</span>':'<span class="pill g">✓</span>')+'</td><td class="num">'+(fw.doubled>0?'<span class="pill a">'+fw.doubled+'</span>':'—')+'</td><td><div class="pbsm"><div class="pbsm-f" style="width:'+Math.round(fw.owned/fw.total*100)+'%"></div></div></td></tr>';
   h+='</tbody></table></div>';
   if(repList.length)h+='<div class="rcard"><div class="rc-t">Para trocar <span>'+repList.length+'</span></div><div class="chips">'+repList.map(function(r){return'<span class="chip rep">'+r.l+'×'+r.q+'</span>';}).join('')+'</div></div>';
   if(missList.length&&missList.length<=200)h+='<div class="rcard"><div class="rc-t">Faltam <span>'+missList.length+'</span></div><div class="chips">'+missList.slice(0,150).map(function(m){return'<span class="chip m">'+m+'</span>';}).join('')+(missList.length>150?'<span class="chip n">+'+(missList.length-150)+'</span>':'')+'</div></div>';
   document.getElementById('rpt').innerHTML=h;
 }
-
 function printRpt(){
   buildReport();
   const g=glSt();

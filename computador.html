@@ -456,9 +456,9 @@ select.f:focus{outline:none;border-color:var(--g)}
           <option value="OFC">OFC</option>
         </select>
         <select class="f" id="rsort" onchange="buildReport()" style="font-size:11px">
+          <option value="name" selected>Nome A-Z</option>
           <option value="owned-desc">Mais completas</option>
           <option value="owned-asc">Menos completas</option>
-          <option value="name">Nome A-Z</option>
           <option value="group">Por grupo</option>
           <option value="rep-desc">Mais repetidas</option>
           <option value="extra-desc">Mais extras</option>
@@ -763,26 +763,45 @@ function setRF(f){rptFilter2=f;document.querySelectorAll('.rfb').forEach(b=>b.cl
 function buildReport(){
   const rc=document.getElementById('rconf').value;
   const rs=document.getElementById('rsort').value;
-  // Build rows with group info
+
+  // Build rows — sorted alphabetically by name by default
   let rows=[];
-  Object.entries(GROUPS).forEach(([gk,gv])=>{
-    gv.teams.forEach(code=>{
-      const t=TEAMS[code],s=tSt(code);
-      rows.push({code,...t,...s,pct:Math.round(s.owned/20*100),miss:20-s.owned,group:gk,groupName:gv.name});
-    });
+  Object.entries(TEAMS).forEach(([code,t])=>{
+    const s=tSt(code);
+    let grp='';
+    Object.entries(GROUPS).forEach(([gk,gv])=>{if(gv.teams.includes(code))grp=gk;});
+    rows.push({code,name:t.name,conf:t.conf,group:grp,...s,pct:Math.round(s.owned/20*100),miss:20-s.owned});
   });
-  if(rc)rows=rows.filter(r=>r.conf===rc);
-  if(rptFilter2==='done')rows=rows.filter(r=>r.owned===20);
-  else if(rptFilter2==='partial')rows=rows.filter(r=>r.owned>0&&r.owned<20);
-  else if(rptFilter2==='empty')rows=rows.filter(r=>r.owned===0);
-  else if(rptFilter2==='rep')rows=rows.filter(r=>r.doubled>0);
-  const sortMap={'owned-desc':(a,b)=>b.owned-a.owned,'owned-asc':(a,b)=>a.owned-b.owned,'name':(a,b)=>a.name.localeCompare(b.name),'group':(a,b)=>a.group.localeCompare(b.group)||a.name.localeCompare(b.name),'rep-desc':(a,b)=>b.doubled-a.doubled,'extra-desc':(a,b)=>b.extra-a.extra};
-  rows.sort(sortMap[rs]||sortMap['owned-desc']);
-  const fw=fwcSt();
-  const g=glSt();
+
+  if(rc) rows=rows.filter(r=>r.conf===rc);
+  if(rptFilter2==='done')    rows=rows.filter(r=>r.owned===20);
+  else if(rptFilter2==='partial') rows=rows.filter(r=>r.owned>0&&r.owned<20);
+  else if(rptFilter2==='empty')   rows=rows.filter(r=>r.owned===0);
+  else if(rptFilter2==='rep')     rows=rows.filter(r=>r.doubled>0);
+
+  // Sort
+  const sorts={
+    'name':      (a,b)=>a.name.localeCompare(b.name,'pt'),
+    'owned-desc':(a,b)=>b.owned-a.owned||a.name.localeCompare(b.name,'pt'),
+    'owned-asc': (a,b)=>a.owned-b.owned||a.name.localeCompare(b.name,'pt'),
+    'group':     (a,b)=>a.group.localeCompare(b.group)||a.name.localeCompare(b.name,'pt'),
+    'rep-desc':  (a,b)=>b.doubled-a.doubled||a.name.localeCompare(b.name,'pt'),
+    'extra-desc':(a,b)=>b.extra-a.extra||a.name.localeCompare(b.name,'pt'),
+  };
+  rows.sort(sorts[rs]||sorts['name']);
+
+  const fw=fwcSt(), g=glSt();
   const missList=[],repList=[];
-  rows.forEach(r=>{for(let i=1;i<=20;i++){if(!gst(r.code,i))missList.push(r.code+' '+i);const s=gst(r.code,i);if(s>=2)repList.push({l:r.code+' '+i,q:s});}});
-  if(!rc){FWC.forEach((s,i)=>{if(!gst('FWC',i+1))missList.push(s.code);const st=gst('FWC',i+1);if(st>=2)repList.push({l:s.code,q:st});});}
+  rows.forEach(r=>{
+    for(let i=1;i<=20;i++){
+      if(!gst(r.code,i))missList.push(r.code+' '+i);
+      const s=gst(r.code,i);if(s>=2)repList.push({l:r.code+' '+i,q:s});
+    }
+  });
+  if(!rc){
+    FWC.forEach((s,i)=>{if(!gst('FWC',i+1))missList.push(s.code);const st=gst('FWC',i+1);if(st>=2)repList.push({l:s.code,q:st});});
+  }
+
   document.getElementById('rpt').innerHTML=`
     <div class="rcard">
       <div class="rcard-hdr">Resumo geral <span>Total do álbum</span></div>
@@ -797,19 +816,28 @@ function buildReport(){
       </div>
     </div>
     <div class="rcard">
-      <div class="rcard-hdr">Por seleção <span>${rows.length} seleção(ões)</span></div>
+      <div class="rcard-hdr">Por seleção <span>${rows.length} seleção(ões) · ordem: ${rs==='name'?'A-Z':rs}</span></div>
       <table class="rtbl">
-        <colgroup><col style="width:8%"><col style="width:22%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:20%"></colgroup>
+        <colgroup>
+          <col style="width:5%"><col style="width:26%"><col style="width:8%">
+          <col style="width:8%"><col style="width:8%"><col style="width:8%">
+          <col style="width:8%"><col style="width:14%"><col style="width:15%">
+        </colgroup>
         <thead><tr>
-          <th>Grupo</th><th>Seleção</th>
+          <th>Grp</th><th>Seleção</th>
+          <th class="num">Conf.</th>
           <th class="num">Tenho</th><th class="num">Faltam</th>
           <th class="num">Rep.</th><th class="num">Extras</th>
           <th>Prog.</th><th>%</th>
         </tr></thead>
         <tbody>
         ${rows.map(r=>`<tr>
-          <td><span class="pill n">G${r.group}</span></td>
-          <td style="font-weight:600">${fImg(r.code,18)} ${r.code} <span style="font-weight:400;color:var(--t2)">${r.name}</span></td>
+          <td><span class="pill n" style="font-size:9px">G${r.group}</span></td>
+          <td>
+            <span style="font-weight:800;font-size:12px;color:var(--t)">${r.name}</span>
+            <span style="font-size:10px;color:var(--t3);margin-left:4px">${r.code}</span>
+          </td>
+          <td style="font-size:10px;color:var(--t3)">${r.conf}</td>
           <td class="num"><span class="pill g">${r.owned}</span></td>
           <td class="num">${r.miss>0?`<span class="pill r">${r.miss}</span>`:'<span class="pill g">✓</span>'}</td>
           <td class="num">${r.doubled>0?`<span class="pill a">${r.doubled}</span>`:'<span style="color:var(--t3)">—</span>'}</td>
@@ -817,7 +845,17 @@ function buildReport(){
           <td><div class="pbsm"><div class="pbsm-f" style="width:${r.pct}%"></div></div></td>
           <td><span class="pill ${r.pct===100?'g':r.pct>50?'b':'n'}">${r.pct}%</span></td>
         </tr>`).join('')}
-        ${!rc?`<tr style="border-top:2px solid var(--br)"><td>—</td><td style="font-weight:700">⭐ FWC Especiais</td><td class="num"><span class="pill g">${fw.owned}</span></td><td class="num">${fw.total-fw.owned>0?`<span class="pill r">${fw.total-fw.owned}</span>`:'<span class="pill g">✓</span>'}</td><td class="num">${fw.doubled>0?`<span class="pill a">${fw.doubled}</span>`:'<span style="color:var(--t3)">—</span>'}</td><td class="num">${fw.extra>0?`<span class="pill p">${fw.extra}</span>`:'<span style="color:var(--t3)">—</span>'}</td><td><div class="pbsm"><div class="pbsm-f" style="width:${Math.round(fw.owned/fw.total*100)}%"></div></div></td><td><span class="pill n">${Math.round(fw.owned/fw.total*100)}%</span></td></tr>`:''}
+        ${!rc?`<tr style="border-top:2px solid var(--br)">
+          <td>—</td>
+          <td><span style="font-weight:800;font-size:12px;color:var(--t)">⭐ FWC Especiais</span></td>
+          <td></td>
+          <td class="num"><span class="pill g">${fw.owned}</span></td>
+          <td class="num">${fw.total-fw.owned>0?`<span class="pill r">${fw.total-fw.owned}</span>`:'<span class="pill g">✓</span>'}</td>
+          <td class="num">${fw.doubled>0?`<span class="pill a">${fw.doubled}</span>`:'<span style="color:var(--t3)">—</span>'}</td>
+          <td class="num">${fw.extra>0?`<span class="pill p">${fw.extra}</span>`:'<span style="color:var(--t3)">—</span>'}</td>
+          <td><div class="pbsm"><div class="pbsm-f" style="width:${Math.round(fw.owned/fw.total*100)}%"></div></div></td>
+          <td><span class="pill n">${Math.round(fw.owned/fw.total*100)}%</span></td>
+        </tr>`:''}
         </tbody>
       </table>
     </div>
